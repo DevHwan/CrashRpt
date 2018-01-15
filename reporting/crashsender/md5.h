@@ -15,7 +15,7 @@ be found in the Authors.txt file in the root of the source tree.
  *	There is no warranty.
  *
  *	Feb. 12. 2005
- *	Benjamin Grüdelbach
+ *	Benjamin Gr?elbach
  */
 
 /*

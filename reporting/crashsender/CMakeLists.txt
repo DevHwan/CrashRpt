@@ -15,7 +15,7 @@ list(APPEND source_files
 	${CMAKE_SOURCE_DIR}/reporting/CrashRpt/SharedMem.cpp)
 	
 # Define _UNICODE (use wide-char encoding)
-add_definitions(-D_UNICODE )
+add_definitions(-D_UNICODE -DUNICODE)
 
 fix_default_compiler_settings_()
 

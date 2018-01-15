@@ -5,7 +5,7 @@ aux_source_directory( . source_files )
 file( GLOB header_files *.h )
 
 # Define _UNICODE (use wide-char encoding)
-add_definitions(-D_UNICODE )
+add_definitions(-D_UNICODE -DUNICODE)
 
 fix_default_compiler_settings_()
 

@@ -203,4 +203,3 @@ void CMFCDemoApp::OnAppAbout()
 
 
 // CMFCDemoApp message handlers
-

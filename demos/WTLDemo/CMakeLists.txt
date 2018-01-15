@@ -13,7 +13,7 @@ add_msvc_precompiled_header(stdafx.h ./stdafx.cpp srcs_using_precomp)
 list(APPEND source_files ./WTLDemo.rc )
 
 # Define _UNICODE (use wide-char encoding)
-add_definitions(-D_UNICODE )
+add_definitions(-D_UNICODE -DUNICODE)
 
 fix_default_compiler_settings_()
 

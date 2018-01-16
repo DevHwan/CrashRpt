@@ -716,11 +716,11 @@ BOOL CErrorReportSender::CreateMiniDump()
     if(lpImagehlpApiVersionEx!=NULL)
     {    
         API_VERSION CompiledApiVer;
-        CompiledApiVer.MajorVersion = 6;
-        CompiledApiVer.MinorVersion = 1;
-        CompiledApiVer.Revision = 11;    
+        CompiledApiVer.MajorVersion = 10;
+        CompiledApiVer.MinorVersion = 0;
+        CompiledApiVer.Revision = 12;
         CompiledApiVer.Reserved = 0;
-        LPAPI_VERSION pActualApiVer = lpImagehlpApiVersionEx(&CompiledApiVer);    
+        LPAPI_VERSION pActualApiVer = lpImagehlpApiVersionEx(&CompiledApiVer);
         pActualApiVer;
         ATLASSERT(CompiledApiVer.MajorVersion==pActualApiVer->MajorVersion);
         ATLASSERT(CompiledApiVer.MinorVersion==pActualApiVer->MinorVersion);

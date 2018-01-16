@@ -145,7 +145,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>CrashRpt1403d.lib;CrashRptProbe1403d.lib;libpngd.lib;zlibd.lib;minizipd.lib;dnsapi.lib;wininet.lib;WS2_32.lib;Rpcrt4.lib;version.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CrashRpt1500d.lib;CrashRptProbe1500d.lib;libpngd.lib;zlibd.lib;minizipd.lib;dnsapi.lib;wininet.lib;WS2_32.lib;Rpcrt4.lib;version.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)thirdparty\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -165,7 +165,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libpngd.lib;zlibd.lib;minizipd.lib;dnsapi.lib;wininet.lib;WS2_32.lib;CrashRptProbe1403d.lib;CrashRpt1403d.lib;Rpcrt4.lib;version.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CrashRptProbe1500d.lib;CrashRpt1500d.lib;libpngd.lib;zlibd.lib;minizipd.lib;dnsapi.lib;wininet.lib;WS2_32.lib;Rpcrt4.lib;version.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Platform);..\thirdparty\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -185,7 +185,7 @@
       <FloatingPointExceptions>true</FloatingPointExceptions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>CrashRptProbe1403.lib;CrashRpt1403.lib;psapi.lib;libpng.lib;zlib.lib;minizip.lib;wininet.lib;dnsapi.lib;WS2_32.lib;Rpcrt4.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CrashRptProbe1500.lib;CrashRpt1500.lib;psapi.lib;libpng.lib;zlib.lib;minizip.lib;wininet.lib;dnsapi.lib;WS2_32.lib;Rpcrt4.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib;$(SolutionDir)thirdparty\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -231,7 +231,7 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>CrashRptProbe1403.lib;CrashRpt1403.lib;psapi.lib;libpng.lib;zlib.lib;minizip.lib;wininet.lib;dnsapi.lib;WS2_32.lib;Rpcrt4.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CrashRptProbe1500.lib;CrashRpt1500.lib;psapi.lib;libpng.lib;zlib.lib;minizip.lib;wininet.lib;dnsapi.lib;WS2_32.lib;Rpcrt4.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Platform);..\thirdparty\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>

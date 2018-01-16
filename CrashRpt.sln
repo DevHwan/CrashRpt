@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2020
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tests", "tests\Tests.vcxproj", "{C6941433-40EA-4307-A0A2-39BFB844367E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C610F50E-1013-46F0-AE20-4E918654B40F} = {C610F50E-1013-46F0-AE20-4E918654B40F}
@@ -264,5 +266,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F928C31D-7FD8-496E-8B55-59DA82DCDE32}
 	EndGlobalSection
 EndGlobal

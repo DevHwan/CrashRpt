@@ -1,13 +1,10 @@
-// Windows Template Library - WTL version 8.1
-// Copyright (C) Microsoft Corporation. All rights reserved.
+// Windows Template Library - WTL version 10.0
+// Copyright (C) Microsoft Corporation, WTL Team. All rights reserved.
 //
 // This file is a part of the Windows Template Library.
 // The use and distribution terms for this software are covered by the
-// Common Public License 1.0 (http://opensource.org/licenses/cpl1.0.php)
-// which can be found in the file CPL.TXT at the root of this distribution.
-// By using this software in any fashion, you are agreeing to be bound by
-// the terms of this license. You must not remove this notice, or
-// any other, from this software.
+// Microsoft Public License (http://opensource.org/licenses/MS-PL)
+// which can be found in the file MS-PL.txt at the root folder.
 
 #ifndef __ATLSCRL_H__
 #define __ATLSCRL_H__
@@ -20,14 +17,6 @@
 
 #ifndef __ATLWIN_H__
 	#error atlscrl.h requires atlwin.h to be included first
-#endif
-
-#if !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400)) && !defined(_WIN32_WCE)
-  #include <zmouse.h>
-#endif // !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400)) && !defined(_WIN32_WCE)
-
-#ifndef GET_WHEEL_DELTA_WPARAM
-  #define GET_WHEEL_DELTA_WPARAM(wParam)  ((short)HIWORD(wParam))
 #endif
 
 
@@ -54,9 +43,7 @@ namespace WTL
 #define SCRL_SCROLLCHILDREN	0x00000001
 #define SCRL_ERASEBACKGROUND	0x00000002
 #define SCRL_NOTHUMBTRACKING	0x00000004
-#if (WINVER >= 0x0500)
 #define SCRL_SMOOTHSCROLL	0x00000008
-#endif // (WINVER >= 0x0500)
 #define SCRL_DISABLENOSCROLLV	0x00000010
 #define SCRL_DISABLENOSCROLLH	0x00000020
 #define SCRL_DISABLENOSCROLL	(SCRL_DISABLENOSCROLLV | SCRL_DISABLENOSCROLLH)
@@ -75,10 +62,6 @@ public:
 	SIZE m_sizeClient;
 	int m_zDelta;              // current wheel value
 	int m_nWheelLines;         // number of lines to scroll on wheel
-#if !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400)) && !defined(_WIN32_WCE)
-	// Note that this message must be forwarded from a top level window
-	UINT m_uMsgMouseWheel;     // MSH_MOUSEWHEEL
-#endif // !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400)) && !defined(_WIN32_WCE)
 	int m_zHDelta;              // current horizontal wheel value
 	int m_nHWheelChars;         // number of chars to scroll on horizontal wheel
 	UINT m_uScrollFlags;
@@ -86,9 +69,6 @@ public:
 
 // Constructor
 	CScrollImpl() : m_zDelta(0), m_nWheelLines(3), 
-#if !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400)) && !defined(_WIN32_WCE)
-			m_uMsgMouseWheel(0U), 
-#endif // !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400)) && !defined(_WIN32_WCE)
 			m_zHDelta(0), m_nHWheelChars(3), 
 			m_uScrollFlags(0U), m_dwExtendedStyle(0)
 	{
@@ -123,9 +103,7 @@ public:
 		T* pT = static_cast<T*>(this);
 		pT;   // avoid level 4 warning
 		m_uScrollFlags = pT->uSCROLL_FLAGS | (IsScrollingChildren() ? SW_SCROLLCHILDREN : 0) | (IsErasingBackground() ? SW_ERASE : 0);
-#if (WINVER >= 0x0500) && !defined(_WIN32_WCE)
 		m_uScrollFlags |= (IsSmoothScroll() ? SW_SMOOTHSCROLL : 0);
-#endif // (WINVER >= 0x0500) && !defined(_WIN32_WCE)
 		return dwPrevStyle;
 	}
 
@@ -163,7 +141,7 @@ public:
 		}
 
 		// Move all children if needed
-		if(IsScrollingChildren() && (dx != 0 || dy != 0))
+		if(IsScrollingChildren() && ((dx != 0) || (dy != 0)))
 		{
 			for(HWND hWndChild = ::GetWindow(pT->m_hWnd, GW_CHILD); hWndChild != NULL; hWndChild = ::GetWindow(hWndChild, GW_HWNDNEXT))
 			{
@@ -238,7 +216,7 @@ public:
 		}
 
 		// Move all children if needed
-		if(IsScrollingChildren() && (dx != 0 || dy != 0))
+		if(IsScrollingChildren() && ((dx != 0) || (dy != 0)))
 		{
 			for(HWND hWndChild = ::GetWindow(pT->m_hWnd, GW_CHILD); hWndChild != NULL; hWndChild = ::GetWindow(hWndChild, GW_HWNDNEXT))
 			{
@@ -269,8 +247,8 @@ public:
 	// line operations
 	void SetScrollLine(int cxLine, int cyLine)
 	{
-		ATLASSERT(cxLine >= 0 && cyLine >= 0);
-		ATLASSERT(m_sizeAll.cx != 0 && m_sizeAll.cy != 0);
+		ATLASSERT((cxLine >= 0) && (cyLine >= 0));
+		ATLASSERT((m_sizeAll.cx != 0) && (m_sizeAll.cy != 0));
 
 		m_sizeLine.cx = T::CalcLineOrPage(cxLine, m_sizeAll.cx, 100);
 		m_sizeLine.cy = T::CalcLineOrPage(cyLine, m_sizeAll.cy, 100);
@@ -289,8 +267,8 @@ public:
 	// page operations
 	void SetScrollPage(int cxPage, int cyPage)
 	{
-		ATLASSERT(cxPage >= 0 && cyPage >= 0);
-		ATLASSERT(m_sizeAll.cx != 0 && m_sizeAll.cy != 0);
+		ATLASSERT((cxPage >= 0) && (cyPage >= 0));
+		ATLASSERT((m_sizeAll.cx != 0) && (m_sizeAll.cy != 0));
 
 		m_sizePage.cx = T::CalcLineOrPage(cxPage, m_sizeAll.cx, 10);
 		m_sizePage.cy = T::CalcLineOrPage(cyPage, m_sizeAll.cy, 10);
@@ -430,6 +408,7 @@ public:
 
 		RECT rect = { 0 };
 		::GetWindowRect(hWnd, &rect);
+		::OffsetRect(&rect, m_ptOffset.x, m_ptOffset.y);
 		::MapWindowPoints(NULL, pT->m_hWnd, (LPPOINT)&rect, 2);
 		ScrollToView(rect);
 	}
@@ -439,16 +418,11 @@ public:
 		MESSAGE_HANDLER(WM_VSCROLL, OnVScroll)
 		MESSAGE_HANDLER(WM_HSCROLL, OnHScroll)
 		MESSAGE_HANDLER(WM_MOUSEWHEEL, OnMouseWheel)
-#if !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400)) && !defined(_WIN32_WCE)
-		MESSAGE_HANDLER(m_uMsgMouseWheel, OnMouseWheel)
-#endif // !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400)) && !defined(_WIN32_WCE)
 		MESSAGE_HANDLER(WM_MOUSEHWHEEL, OnMouseHWheel)
 		MESSAGE_HANDLER(WM_SETTINGCHANGE, OnSettingChange)
 		MESSAGE_HANDLER(WM_SIZE, OnSize)
 		MESSAGE_HANDLER(WM_PAINT, OnPaint)
-#ifndef _WIN32_WCE
 		MESSAGE_HANDLER(WM_PRINTCLIENT, OnPaint)
-#endif // !_WIN32_WCE
 	// standard scroll commands
 	ALT_MSG_MAP(1)
 		COMMAND_ID_HANDLER(ID_SCROLL_UP, OnScrollUp)
@@ -467,7 +441,9 @@ public:
 
 	LRESULT OnCreate(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled)
 	{
-		GetSystemSettings();
+		T* pT = static_cast<T*>(this);
+		pT->GetSystemSettings();
+
 		bHandled = FALSE;
 		return 1;
 	}
@@ -488,17 +464,12 @@ public:
 		return 0;
 	}
 
-	LRESULT OnMouseWheel(UINT uMsg, WPARAM wParam, LPARAM /*lParam*/, BOOL& /*bHandled*/)
+	LRESULT OnMouseWheel(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 	{
 		T* pT = static_cast<T*>(this);
 		ATLASSERT(::IsWindow(pT->m_hWnd));
 
-#if (_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400) || defined(_WIN32_WCE)
-		uMsg;
 		int zDelta = (int)GET_WHEEL_DELTA_WPARAM(wParam);
-#else
-		int zDelta = (uMsg == WM_MOUSEWHEEL) ? (int)GET_WHEEL_DELTA_WPARAM(wParam) : (int)wParam;
-#endif // !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400) || defined(_WIN32_WCE))
 		int nScrollCode = (m_nWheelLines == WHEEL_PAGESCROLL) ? ((zDelta > 0) ? SB_PAGEUP : SB_PAGEDOWN) : ((zDelta > 0) ? SB_LINEUP : SB_LINEDOWN);
 		m_zDelta += zDelta;   // cumulative
 		int zTotal = (m_nWheelLines == WHEEL_PAGESCROLL) ? abs(m_zDelta) : abs(m_zDelta) * m_nWheelLines;
@@ -510,7 +481,7 @@ public:
 				pT->UpdateWindow();
 			}
 		}
-		else		// can't scroll vertically, scroll horizontally
+		else if(m_sizeAll.cx > m_sizeClient.cx)   // can't scroll vertically, scroll horizontally
 		{
 			for(int i = 0; i < zTotal; i += WHEEL_DELTA)
 			{
@@ -556,43 +527,7 @@ public:
 		T* pT = static_cast<T*>(this);
 		ATLASSERT(::IsWindow(pT->m_hWnd));
 
-		m_sizeClient.cx = GET_X_LPARAM(lParam);
-		m_sizeClient.cy = GET_Y_LPARAM(lParam);
-
-		// block: set horizontal scroll bar
-		{
-			SCROLLINFO si = { sizeof(SCROLLINFO) };
-			si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
-			si.nMin = 0;
-			si.nMax = m_sizeAll.cx - 1;
-			if((m_dwExtendedStyle & SCRL_DISABLENOSCROLLH) != 0)
-				si.fMask |= SIF_DISABLENOSCROLL;
-			si.nPage = m_sizeClient.cx;
-			si.nPos = m_ptOffset.x;
-			pT->SetScrollInfo(SB_HORZ, &si, TRUE);
-		}
-
-		// block: set vertical scroll bar
-		{
-			SCROLLINFO si = { sizeof(SCROLLINFO) };
-			si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
-			si.nMin = 0;
-			si.nMax = m_sizeAll.cy - 1;
-			if((m_dwExtendedStyle & SCRL_DISABLENOSCROLLV) != 0)
-				si.fMask |= SIF_DISABLENOSCROLL;
-			si.nPage = m_sizeClient.cy;
-			si.nPos = m_ptOffset.y;
-			pT->SetScrollInfo(SB_VERT, &si, TRUE);
-		}
-
-		int x = m_ptOffset.x;
-		int y = m_ptOffset.y;
-		if(pT->AdjustScrollOffset(x, y))
-		{
-			// Children will be moved in SetScrollOffset, if needed
-			pT->ScrollWindowEx(m_ptOffset.x - x, m_ptOffset.y - y, (m_uScrollFlags & ~SCRL_SCROLLCHILDREN));
-			SetScrollOffset(x, y, FALSE);
-		}
+		pT->DoSize(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 
 		bHandled = FALSE;
 		return 1;
@@ -700,6 +635,49 @@ public:
 	}
 
 // Implementation
+	void DoSize(int cx, int cy)
+	{
+		m_sizeClient.cx = cx;
+		m_sizeClient.cy = cy;
+
+		T* pT = static_cast<T*>(this);
+
+		// block: set horizontal scroll bar
+		{
+			SCROLLINFO si = { sizeof(SCROLLINFO) };
+			si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
+			si.nMin = 0;
+			si.nMax = m_sizeAll.cx - 1;
+			if((m_dwExtendedStyle & SCRL_DISABLENOSCROLLH) != 0)
+				si.fMask |= SIF_DISABLENOSCROLL;
+			si.nPage = m_sizeClient.cx;
+			si.nPos = m_ptOffset.x;
+			pT->SetScrollInfo(SB_HORZ, &si, TRUE);
+		}
+
+		// block: set vertical scroll bar
+		{
+			SCROLLINFO si = { sizeof(SCROLLINFO) };
+			si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;
+			si.nMin = 0;
+			si.nMax = m_sizeAll.cy - 1;
+			if((m_dwExtendedStyle & SCRL_DISABLENOSCROLLV) != 0)
+				si.fMask |= SIF_DISABLENOSCROLL;
+			si.nPage = m_sizeClient.cy;
+			si.nPos = m_ptOffset.y;
+			pT->SetScrollInfo(SB_VERT, &si, TRUE);
+		}
+
+		int x = m_ptOffset.x;
+		int y = m_ptOffset.y;
+		if(pT->AdjustScrollOffset(x, y))
+		{
+			// Children will be moved in SetScrollOffset, if needed
+			pT->ScrollWindowEx(m_ptOffset.x - x, m_ptOffset.y - y, (m_uScrollFlags & ~SCRL_SCROLLCHILDREN));
+			SetScrollOffset(x, y, FALSE);
+		}
+	}
+
 	void DoScroll(int nType, int nScrollCode, int& cxyOffset, int cxySizeAll, int cxySizePage, int cxySizeLine)
 	{
 		T* pT = static_cast<T*>(this);
@@ -792,7 +770,7 @@ public:
 			break;
 		}
 
-		if(bUpdate && cxyScroll != 0)
+		if(bUpdate && (cxyScroll != 0))
 		{
 			pT->SetScrollPos(nType, cxyOffset, TRUE);
 			if(nType == SB_VERT)
@@ -835,35 +813,17 @@ public:
 		else if(y < 0)
 			y = 0;
 
-		return (x != xOld || y != yOld);
+		return ((x != xOld) || (y != yOld));
 	}
 
 	void GetSystemSettings()
 	{
-#ifndef _WIN32_WCE
-#ifndef SPI_GETWHEELSCROLLLINES
-		const UINT SPI_GETWHEELSCROLLLINES = 104;
-#endif // !SPI_GETWHEELSCROLLLINES
 		::SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &m_nWheelLines, 0);
 
 #ifndef SPI_GETWHEELSCROLLCHARS
 		const UINT SPI_GETWHEELSCROLLCHARS = 0x006C;
-#endif // !SPI_GETWHEELSCROLLCHARS
+#endif
 		::SystemParametersInfo(SPI_GETWHEELSCROLLCHARS, 0, &m_nHWheelChars, 0);
-
-#if !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400))
-		if(m_uMsgMouseWheel != 0)
-			m_uMsgMouseWheel = ::RegisterWindowMessage(MSH_MOUSEWHEEL);
-
-		HWND hWndWheel = FindWindow(MSH_WHEELMODULE_CLASS, MSH_WHEELMODULE_TITLE);
-		if(::IsWindow(hWndWheel))
-		{
-			UINT uMsgScrollLines = ::RegisterWindowMessage(MSH_SCROLL_LINES);
-			if(uMsgScrollLines != 0)
-				m_nWheelLines = (int)::SendMessage(hWndWheel, uMsgScrollLines, 0, 0L);
-		}
-#endif // !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400))
-#endif // !_WIN32_WCE
 	}
 
 	bool IsScrollingChildren() const
@@ -881,12 +841,10 @@ public:
 		return (m_dwExtendedStyle & SCRL_NOTHUMBTRACKING) != 0;
 	}
 
-#if (WINVER >= 0x0500)
 	bool IsSmoothScroll() const
 	{
 		return (m_dwExtendedStyle & SCRL_SMOOTHSCROLL) != 0;
 	}
-#endif // (WINVER >= 0x0500)
 };
 
 
@@ -897,20 +855,31 @@ template <class T, class TBase = ATL::CWindow, class TWinTraits = ATL::CControlW
 class ATL_NO_VTABLE CScrollWindowImpl : public ATL::CWindowImpl<T, TBase, TWinTraits>, public CScrollImpl< T >
 {
 public:
+	BOOL SubclassWindow(HWND hWnd)
+	{
+		BOOL bRet = ATL::CWindowImpl< T, TBase, TWinTraits >::SubclassWindow(hWnd);
+		if(bRet != FALSE)
+		{
+			T* pT = static_cast<T*>(this);
+			pT->GetSystemSettings();
+
+			RECT rect = { 0 };
+			GetClientRect(&rect);
+			pT->DoSize(rect.right, rect.bottom);
+		}
+
+		return bRet;
+	}
+
 	BEGIN_MSG_MAP(CScrollWindowImpl)
 		MESSAGE_HANDLER(WM_VSCROLL, CScrollImpl< T >::OnVScroll)
 		MESSAGE_HANDLER(WM_HSCROLL, CScrollImpl< T >::OnHScroll)
 		MESSAGE_HANDLER(WM_MOUSEWHEEL, CScrollImpl< T >::OnMouseWheel)
-#if !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400)) && !defined(_WIN32_WCE)
-		MESSAGE_HANDLER(m_uMsgMouseWheel, CScrollImpl< T >::OnMouseWheel)
-#endif // !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400)) && !defined(_WIN32_WCE)
 		MESSAGE_HANDLER(WM_MOUSEHWHEEL, CScrollImpl< T >::OnMouseHWheel)
 		MESSAGE_HANDLER(WM_SETTINGCHANGE, CScrollImpl< T >::OnSettingChange)
 		MESSAGE_HANDLER(WM_SIZE, CScrollImpl< T >::OnSize)
 		MESSAGE_HANDLER(WM_PAINT, CScrollImpl< T >::OnPaint)
-#ifndef _WIN32_WCE
 		MESSAGE_HANDLER(WM_PRINTCLIENT, CScrollImpl< T >::OnPaint)
-#endif // !_WIN32_WCE
 	ALT_MSG_MAP(1)
 		COMMAND_ID_HANDLER(ID_SCROLL_UP, CScrollImpl< T >::OnScrollUp)
 		COMMAND_ID_HANDLER(ID_SCROLL_DOWN, CScrollImpl< T >::OnScrollDown)
@@ -930,8 +899,6 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////
 // CMapScrollImpl - Provides mapping and scrolling support to any window
-
-#ifndef _WIN32_WCE
 
 template <class T>
 class CMapScrollImpl : public CScrollImpl< T >
@@ -956,20 +923,20 @@ public:
 	// mapping mode operations
 	void SetScrollMapMode(int nMapMode)
 	{
-		ATLASSERT(nMapMode >= MM_MIN && nMapMode <= MM_MAX_FIXEDSCALE);
+		ATLASSERT((nMapMode >= MM_MIN) && (nMapMode <= MM_MAX_FIXEDSCALE));
 		m_nMapMode = nMapMode;
 	}
 
 	int GetScrollMapMode() const
 	{
-		ATLASSERT(m_nMapMode >= MM_MIN && m_nMapMode <= MM_MAX_FIXEDSCALE);
+		ATLASSERT((m_nMapMode >= MM_MIN) && (m_nMapMode <= MM_MAX_FIXEDSCALE));
 		return m_nMapMode;
 	}
 
 	// offset operations
 	void SetScrollOffset(int x, int y, BOOL bRedraw = TRUE)
 	{
-		ATLASSERT(m_nMapMode >= MM_MIN && m_nMapMode <= MM_MAX_FIXEDSCALE);
+		ATLASSERT((m_nMapMode >= MM_MIN) && (m_nMapMode <= MM_MAX_FIXEDSCALE));
 		POINT ptOff = { x, y };
 		// block: convert logical to device units
 		{
@@ -987,7 +954,7 @@ public:
 
 	void GetScrollOffset(POINT& ptOffset) const
 	{
-		ATLASSERT(m_nMapMode >= MM_MIN && m_nMapMode <= MM_MAX_FIXEDSCALE);
+		ATLASSERT((m_nMapMode >= MM_MIN) && (m_nMapMode <= MM_MAX_FIXEDSCALE));
 		ptOffset = m_ptOffset;
 		// block: convert device to logical units
 		{
@@ -1000,8 +967,8 @@ public:
 	// size operations
 	void SetScrollSize(int xMin, int yMin, int xMax, int yMax, BOOL bRedraw = TRUE, bool bResetOffset = true)
 	{
-		ATLASSERT(xMax > xMin && yMax > yMin);
-		ATLASSERT(m_nMapMode >= MM_MIN && m_nMapMode <= MM_MAX_FIXEDSCALE);
+		ATLASSERT((xMax > xMin) && (yMax > yMin));
+		ATLASSERT((m_nMapMode >= MM_MIN) && (m_nMapMode <= MM_MAX_FIXEDSCALE));
 
 		::SetRect(&m_rectLogAll, xMin, yMin, xMax, yMax);
 
@@ -1036,15 +1003,15 @@ public:
 
 	void GetScrollSize(RECT& rcScroll) const
 	{
-		ATLASSERT(m_nMapMode >= MM_MIN && m_nMapMode <= MM_MAX_FIXEDSCALE);
+		ATLASSERT((m_nMapMode >= MM_MIN) && (m_nMapMode <= MM_MAX_FIXEDSCALE));
 		rcScroll = m_rectLogAll;
 	}
 
 	// line operations
 	void SetScrollLine(int cxLine, int cyLine)
 	{
-		ATLASSERT(cxLine >= 0 && cyLine >= 0);
-		ATLASSERT(m_nMapMode >= MM_MIN && m_nMapMode <= MM_MAX_FIXEDSCALE);
+		ATLASSERT((cxLine >= 0) && (cyLine >= 0));
+		ATLASSERT((m_nMapMode >= MM_MIN) && (m_nMapMode <= MM_MAX_FIXEDSCALE));
 
 		m_sizeLogLine.cx = cxLine;
 		m_sizeLogLine.cy = cyLine;
@@ -1065,15 +1032,15 @@ public:
 
 	void GetScrollLine(SIZE& sizeLine) const
 	{
-		ATLASSERT(m_nMapMode >= MM_MIN && m_nMapMode <= MM_MAX_FIXEDSCALE);
+		ATLASSERT((m_nMapMode >= MM_MIN) && (m_nMapMode <= MM_MAX_FIXEDSCALE));
 		sizeLine = m_sizeLogLine;
 	}
 
 	// page operations
 	void SetScrollPage(int cxPage, int cyPage)
 	{
-		ATLASSERT(cxPage >= 0 && cyPage >= 0);
-		ATLASSERT(m_nMapMode >= MM_MIN && m_nMapMode <= MM_MAX_FIXEDSCALE);
+		ATLASSERT((cxPage >= 0) && (cyPage >= 0));
+		ATLASSERT((m_nMapMode >= MM_MIN) && (m_nMapMode <= MM_MAX_FIXEDSCALE));
 
 		m_sizeLogPage.cx = cxPage;
 		m_sizeLogPage.cy = cyPage;
@@ -1094,7 +1061,7 @@ public:
 
 	void GetScrollPage(SIZE& sizePage) const
 	{
-		ATLASSERT(m_nMapMode >= MM_MIN && m_nMapMode <= MM_MAX_FIXEDSCALE);
+		ATLASSERT((m_nMapMode >= MM_MIN) && (m_nMapMode <= MM_MAX_FIXEDSCALE));
 		sizePage = m_sizeLogPage;
 	}
 
@@ -1102,9 +1069,6 @@ public:
 		MESSAGE_HANDLER(WM_VSCROLL, CScrollImpl< T >::OnVScroll)
 		MESSAGE_HANDLER(WM_HSCROLL, CScrollImpl< T >::OnHScroll)
 		MESSAGE_HANDLER(WM_MOUSEWHEEL, CScrollImpl< T >::OnMouseWheel)
-#if !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400))
-		MESSAGE_HANDLER(m_uMsgMouseWheel, CScrollImpl< T >::OnMouseWheel)
-#endif // !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400))
 		MESSAGE_HANDLER(WM_MOUSEHWHEEL, CScrollImpl< T >::OnMouseHWheel)
 		MESSAGE_HANDLER(WM_SETTINGCHANGE, CScrollImpl< T >::OnSettingChange)
 		MESSAGE_HANDLER(WM_SIZE, CScrollImpl< T >::OnSize)
@@ -1136,9 +1100,9 @@ public:
 			dc.SetMapMode(m_nMapMode);
 			POINT ptViewportOrg = { 0, 0 };
 			if(m_nMapMode == MM_TEXT)
-				dc.SetViewportOrg(-m_ptOffset.x, -m_ptOffset.y, &ptViewportOrg);
+				dc.SetViewportOrg(-this->m_ptOffset.x, -this->m_ptOffset.y, &ptViewportOrg);
 			else
-				dc.SetViewportOrg(-m_ptOffset.x, -m_ptOffset.y + m_sizeAll.cy, &ptViewportOrg);
+				dc.SetViewportOrg(-this->m_ptOffset.x, -this->m_ptOffset.y + this->m_sizeAll.cy, &ptViewportOrg);
 			POINT ptWindowOrg = { 0, 0 };
 			dc.SetWindowOrg(m_rectLogAll.left, m_rectLogAll.top, &ptWindowOrg);
 
@@ -1153,9 +1117,9 @@ public:
 			CPaintDC dc(pT->m_hWnd);
 			dc.SetMapMode(m_nMapMode);
 			if(m_nMapMode == MM_TEXT)
-				dc.SetViewportOrg(-m_ptOffset.x, -m_ptOffset.y);
+				dc.SetViewportOrg(-this->m_ptOffset.x, -this->m_ptOffset.y);
 			else
-				dc.SetViewportOrg(-m_ptOffset.x, -m_ptOffset.y + m_sizeAll.cy);
+				dc.SetViewportOrg(-this->m_ptOffset.x, -this->m_ptOffset.y + this->m_sizeAll.cy);
 			dc.SetWindowOrg(m_rectLogAll.left, m_rectLogAll.top);
 			pT->DoPaint(dc.m_hDC);
 		}
@@ -1163,25 +1127,34 @@ public:
 	}
 };
 
-#endif // !_WIN32_WCE
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // CMapScrollWindowImpl - Implements scrolling window with mapping
-
-#ifndef _WIN32_WCE
 
 template <class T, class TBase = ATL::CWindow, class TWinTraits = ATL::CControlWinTraits>
 class ATL_NO_VTABLE CMapScrollWindowImpl : public ATL::CWindowImpl< T, TBase, TWinTraits >, public CMapScrollImpl< T >
 {
 public:
+	BOOL SubclassWindow(HWND hWnd)
+	{
+		BOOL bRet = ATL::CWindowImpl< T, TBase, TWinTraits >::SubclassWindow(hWnd);
+		if(bRet != FALSE)
+		{
+			T* pT = static_cast<T*>(this);
+			pT->GetSystemSettings();
+
+			RECT rect = { 0 };
+			GetClientRect(&rect);
+			pT->DoSize(rect.right, rect.bottom);
+		}
+
+		return bRet;
+	}
+
 	BEGIN_MSG_MAP(CMapScrollWindowImpl)
 		MESSAGE_HANDLER(WM_VSCROLL, CScrollImpl< T >::OnVScroll)
 		MESSAGE_HANDLER(WM_HSCROLL, CScrollImpl< T >::OnHScroll)
 		MESSAGE_HANDLER(WM_MOUSEWHEEL, CScrollImpl< T >::OnMouseWheel)
-#if !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400))
-		MESSAGE_HANDLER(m_uMsgMouseWheel, CScrollImpl< T >::OnMouseWheel)
-#endif // !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400))
 		MESSAGE_HANDLER(WM_MOUSEHWHEEL, CScrollImpl< T >::OnMouseHWheel)
 		MESSAGE_HANDLER(WM_SETTINGCHANGE, CScrollImpl< T >::OnSettingChange)
 		MESSAGE_HANDLER(WM_SIZE, CScrollImpl< T >::OnSize)
@@ -1203,13 +1176,11 @@ public:
 	END_MSG_MAP()
 };
 
-#endif // !_WIN32_WCE
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // CFSBWindow - Use as a base instead of CWindow to get flat scroll bar support
 
-#if defined(__ATLCTRLS_H__) && (_WIN32_IE >= 0x0400) && !defined(_WIN32_WCE)
+#ifdef __ATLCTRLS_H__
 
 template <class TBase = ATL::CWindow>
 class CFSBWindowT : public TBase, public CFlatScrollBarImpl<CFSBWindowT< TBase > >
@@ -1229,32 +1200,30 @@ public:
 // (only those methods that are used by scroll window classes)
 	int SetScrollPos(int nBar, int nPos, BOOL bRedraw = TRUE)
 	{
-		ATLASSERT(::IsWindow(m_hWnd));
-		return FlatSB_SetScrollPos(nBar, nPos, bRedraw);
+		ATLASSERT(::IsWindow(this->m_hWnd));
+		return this->FlatSB_SetScrollPos(nBar, nPos, bRedraw);
 	}
 
 	BOOL GetScrollInfo(int nBar, LPSCROLLINFO lpScrollInfo)
 	{
-		ATLASSERT(::IsWindow(m_hWnd));
-		return FlatSB_GetScrollInfo(nBar, lpScrollInfo);
+		ATLASSERT(::IsWindow(this->m_hWnd));
+		return this->FlatSB_GetScrollInfo(nBar, lpScrollInfo);
 	}
 
 	BOOL SetScrollInfo(int nBar, LPSCROLLINFO lpScrollInfo, BOOL bRedraw = TRUE)
 	{
-		ATLASSERT(::IsWindow(m_hWnd));
-		return FlatSB_SetScrollInfo(nBar, lpScrollInfo, bRedraw);
+		ATLASSERT(::IsWindow(this->m_hWnd));
+		return this->FlatSB_SetScrollInfo(nBar, lpScrollInfo, bRedraw);
 	}
 };
 
 typedef CFSBWindowT<ATL::CWindow>   CFSBWindow;
 
-#endif // defined(__ATLCTRLS_H__) && (_WIN32_IE >= 0x0400) && !defined(_WIN32_WCE)
+#endif // __ATLCTRLS_H__
 
 
 ///////////////////////////////////////////////////////////////////////////////
 // CZoomScrollImpl - Provides zooming and scrolling support to any window
-
-#ifndef _WIN32_WCE
 
 // The zoom modes that can be set with the SetZoomMode method
 enum
@@ -1273,24 +1242,35 @@ class CZoomScrollImpl : public CScrollImpl< T >
 public:
 	enum { m_cxyMinZoomRect = 12 };   // min rect size to zoom in on rect.
 
+	struct _ChildPlacement
+	{
+		HWND hWnd;
+		int x;
+		int y;
+		int cx;
+		int cy;
+
+		bool operator ==(const _ChildPlacement& cp) const { return (memcmp(this, &cp, sizeof(_ChildPlacement)) == 0); }
+	};
+
 // Data members
 	SIZE m_sizeLogAll;		
 	SIZE m_sizeLogLine;	
 	SIZE m_sizeLogPage;
 	float m_fZoomScale;
 	float m_fZoomScaleMin;
+	float m_fZoomScaleMax;
 	float m_fZoomDelta;   // Used in ZOOMMODE_IN and ZOOMMODE_OUT on left-button click.
 	int m_nZoomMode;		
 	RECT m_rcTrack;
 	bool m_bTracking;
 
+	bool m_bZoomChildren;
+	ATL::CSimpleArray<_ChildPlacement> m_arrChildren;
+
 // Constructor
-	CZoomScrollImpl():
-			m_fZoomScale(1.0),
-			m_fZoomScaleMin(0.5),
-			m_fZoomDelta(0.5),
-			m_nZoomMode(ZOOMMODE_OFF),
-			m_bTracking(false)
+	CZoomScrollImpl(): m_fZoomScale(1.0f), m_fZoomScaleMin(0.1f), m_fZoomScaleMax(100.0f), m_fZoomDelta(0.5f), 
+	                   m_nZoomMode(ZOOMMODE_OFF), m_bTracking(false), m_bZoomChildren(false)
 	{
 		m_sizeLogAll.cx = 0;
 		m_sizeLogAll.cy = 0;
@@ -1302,14 +1282,13 @@ public:
 	}
 
 // Attributes & Operations
-
 	// size operations
 	void SetScrollSize(int cxLog, int cyLog, BOOL bRedraw = TRUE, bool bResetOffset = true)
 	{
-		ATLASSERT(cxLog >= 0 && cyLog >= 0);
+		ATLASSERT((cxLog >= 0) && (cyLog >= 0));
 
 		// Set up the defaults
-		if (cxLog == 0 && cyLog == 0)
+		if((cxLog == 0) && (cyLog == 0))
 		{
 			cxLog = 1;
 			cyLog = 1;
@@ -1337,7 +1316,7 @@ public:
 	// line operations
 	void SetScrollLine(int cxLogLine, int cyLogLine)
 	{
-		ATLASSERT(cxLogLine >= 0 && cyLogLine >= 0);
+		ATLASSERT((cxLogLine >= 0) && (cyLogLine >= 0));
 
 		m_sizeLogLine.cx = cxLogLine;
 		m_sizeLogLine.cy = cyLogLine;
@@ -1361,7 +1340,7 @@ public:
 	// page operations
 	void SetScrollPage(int cxLogPage, int cyLogPage)
 	{
-		ATLASSERT(cxLogPage >= 0 && cyLogPage >= 0);
+		ATLASSERT((cxLogPage >= 0) && (cyLogPage >= 0));
 
 		m_sizeLogPage.cx = cxLogPage;
 		m_sizeLogPage.cy = cyLogPage;
@@ -1385,10 +1364,15 @@ public:
 
 	void SetZoomScale(float fZoomScale)
 	{
-		ATLASSERT(fZoomScale > 0);
+		ATLASSERT(fZoomScale > 0.0f);
+		if(fZoomScale <= 0.0f)
+			return;
 
-		if(fZoomScale > 0 && fZoomScale >= m_fZoomScaleMin)
-			m_fZoomScale = fZoomScale;
+		m_fZoomScale = fZoomScale;
+		if(m_fZoomScale < m_fZoomScaleMin)
+			m_fZoomScale = m_fZoomScaleMin;
+		else if(m_fZoomScale > m_fZoomScaleMax)
+			m_fZoomScale = m_fZoomScaleMax;
 	}
 
 	float GetZoomScale() const
@@ -1398,6 +1382,9 @@ public:
 
 	void SetZoomScaleMin(float fZoomScaleMin)
 	{
+		ATLASSERT(fZoomScaleMin > 0.0f);
+		ATLASSERT(fZoomScaleMin <= m_fZoomScaleMax);
+
 		m_fZoomScaleMin = fZoomScaleMin;
 	}
 
@@ -1406,11 +1393,24 @@ public:
 		return m_fZoomScaleMin;
 	}
 
+	void SetZoomScaleMax(float fZoomScaleMax)
+	{
+		ATLASSERT(fZoomScaleMax > 0.0f);
+		ATLASSERT(m_fZoomScaleMin <= fZoomScaleMax);
+
+		m_fZoomScaleMax = fZoomScaleMax;
+	}
+
+	float GetZoomScaleMax() const
+	{
+		return m_fZoomScaleMax;
+	}
+
 	void SetZoomDelta(float fZoomDelta)
 	{
-		ATLASSERT(fZoomDelta >= 0);
+		ATLASSERT(fZoomDelta >= 0.0f);
 
-		if(fZoomDelta >= 0)
+		if(fZoomDelta >= 0.0f)
 			m_fZoomDelta = fZoomDelta;
 	}
 
@@ -1429,12 +1429,47 @@ public:
 		return m_nZoomMode;
 	}
 
+	void SetZoomChildren(bool bEnable = true)
+	{
+		T* pT = static_cast<T*>(this);
+		ATLASSERT(::IsWindow(pT->m_hWnd));
+
+		m_bZoomChildren = bEnable;
+
+		m_arrChildren.RemoveAll();
+		if(m_bZoomChildren)
+		{
+			for(HWND hWndChild = ::GetWindow(pT->m_hWnd, GW_CHILD); hWndChild != NULL; hWndChild = ::GetWindow(hWndChild, GW_HWNDNEXT))
+			{
+				RECT rect = { 0 };
+				::GetWindowRect(hWndChild, &rect);
+				::MapWindowPoints(NULL, pT->m_hWnd, (LPPOINT)&rect, 2);
+
+				_ChildPlacement cp = { 0 };
+				cp.hWnd = hWndChild;
+				cp.x = rect.left;
+				cp.y = rect.top;
+				cp.cx = rect.right - rect.left;
+				cp.cy = rect.bottom - rect.top;
+				m_arrChildren.Add(cp);
+			}
+		}
+	}
+
+	bool GetZoomChildren() const
+	{
+		return m_bZoomChildren;
+	}
+
 	void Zoom(int x, int y, float fZoomScale)
 	{
-		if(fZoomScale <= 0)
+		if(fZoomScale <= 0.0f)
 			return;
 
-		fZoomScale = max(fZoomScale, m_fZoomScaleMin);
+		if(fZoomScale < m_fZoomScaleMin)
+			fZoomScale = m_fZoomScaleMin;
+		else if(fZoomScale > m_fZoomScaleMax)
+			fZoomScale = m_fZoomScaleMax;
 
 		T* pT = static_cast<T*>(this);
 		POINT pt = { x, y };
@@ -1459,41 +1494,42 @@ public:
 		pT->NormalizeRect(rcZoom);
 		SIZE size = { rcZoom.right - rcZoom.left, rcZoom.bottom - rcZoom.top };
 		POINT pt = { rcZoom.left + size.cx / 2, rcZoom.top + size.cy / 2 };
-		if(size.cx < m_cxyMinZoomRect || size.cy < m_cxyMinZoomRect)
+		if((size.cx < m_cxyMinZoomRect) || (size.cy < m_cxyMinZoomRect))
 		{
 			pT->Zoom(pt, m_fZoomScale + m_fZoomDelta);
 			return;
 		}
 
-		ATLASSERT(size.cx > 0 && size.cy > 0);
+		ATLASSERT((size.cx > 0) && (size.cy > 0));
 		
-		float fScaleH = (float)(m_sizeClient.cx  + 1) / (float)size.cx;
-		float fScaleV = (float)(m_sizeClient.cy + 1) / (float)size.cy;
-		float fZoomScale = min(fScaleH, fScaleV) * m_fZoomScale;
+		float fScaleH = (float)(this->m_sizeClient.cx  + 1) / (float)size.cx;
+		float fScaleV = (float)(this->m_sizeClient.cy + 1) / (float)size.cy;
+		float fZoomScale = __min(fScaleH, fScaleV) * m_fZoomScale;
 		pT->Zoom(pt, fZoomScale);		
 	}
 
 	void Zoom(float fZoomScale, bool bCenter = true)
 	{
-		if(fZoomScale <= 0)
+		if(fZoomScale <= 0.0f)
 			return;
 
-		fZoomScale = max(fZoomScale, m_fZoomScaleMin);
-
+		if(fZoomScale < m_fZoomScaleMin)
+			fZoomScale = m_fZoomScaleMin;
+		else if(fZoomScale > m_fZoomScaleMax)
+			fZoomScale = m_fZoomScaleMax;
 
 		T* pT = static_cast<T*>(this);
 		POINT pt = { 0 };
 		if(bCenter)
 		{
-			RECT rc;
-			::GetClientRect(pT->m_hWnd, &rc);
-			pt.x = rc.right / 2;
-			pt.y = rc.bottom / 2;
+			RECT rcClient = { 0 };
+			::GetClientRect(pT->m_hWnd, &rcClient);
+			pt.x = rcClient.right / 2;
+			pt.y = rcClient.bottom / 2;
 			pT->ViewDPtoLP(&pt);
 		}
 
 		// Modify the Viewport extent
-		m_fZoomScale = fZoomScale;
 		SIZE sizeAll = { 0 };
 		sizeAll.cx = (int)((float)m_sizeLogAll.cx * fZoomScale);
 		sizeAll.cy = (int)((float)m_sizeLogAll.cy * fZoomScale);
@@ -1501,18 +1537,55 @@ public:
 		// Update scroll bars and window
 		CScrollImpl< T >::SetScrollSize(sizeAll);
 
+		// Zoom all children if needed
+		if(m_bZoomChildren && (m_fZoomScale != fZoomScale))
+		{
+			for(int i = 0; i < m_arrChildren.GetSize(); i++)
+			{
+				ATLASSERT(::IsWindow(m_arrChildren[i].hWnd));
+
+				::SetWindowPos(m_arrChildren[i].hWnd, NULL, 
+					(int)((float)m_arrChildren[i].x * fZoomScale + 0.5f), 
+					(int)((float)m_arrChildren[i].y * fZoomScale + 0.5f), 
+					(int)((float)m_arrChildren[i].cx * fZoomScale + 0.5f), 
+					(int)((float)m_arrChildren[i].cy * fZoomScale + 0.5f), 
+					SWP_NOZORDER | SWP_NOACTIVATE);
+			}
+		}
+
+		// Set new zoom scale
+		m_fZoomScale = fZoomScale;
+
 		if(bCenter)
 			pT->CenterOnLogicalPoint(pt);
+	}
+
+	void ZoomIn(bool bCenter = true)
+	{
+		T* pT = static_cast<T*>(this);
+		pT->Zoom(m_fZoomScale + m_fZoomDelta, bCenter);
+	}
+
+	void ZoomOut(bool bCenter = true)
+	{
+		T* pT = static_cast<T*>(this);
+		pT->Zoom(m_fZoomScale - m_fZoomDelta, bCenter);
+	}
+
+	void ZoomDefault(bool bCenter = true)
+	{
+		T* pT = static_cast<T*>(this);
+		pT->Zoom(1.0f, bCenter);
 	}
 
 	// Helper functions
 	void PrepareDC(CDCHandle dc)
 	{
-		ATLASSERT(m_sizeAll.cx >= 0 && m_sizeAll.cy >= 0);
+		ATLASSERT((this->m_sizeAll.cx >= 0) && (this->m_sizeAll.cy >= 0));
 		dc.SetMapMode(MM_ANISOTROPIC);
-		dc.SetWindowExt(m_sizeLogAll);
-		dc.SetViewportExt(m_sizeAll);
-		dc.SetViewportOrg(-m_ptOffset.x, -m_ptOffset.y);
+		dc.SetWindowExt(this->m_sizeLogAll);
+		dc.SetViewportExt(this->m_sizeAll);
+		dc.SetViewportOrg(-this->m_ptOffset.x, -this->m_ptOffset.y);
 	}
 
 	void ViewDPtoLP(LPPOINT lpPoints, int nCount = 1)
@@ -1539,42 +1612,42 @@ public:
 
 	void ClientToDevice(POINT &pt)
 	{
-		pt.x += m_ptOffset.x;
-		pt.y += m_ptOffset.y;
+		pt.x += this->m_ptOffset.x;
+		pt.y += this->m_ptOffset.y;
 	}	 
 
 	void DeviceToClient(POINT &pt)
 	{
-		pt.x -= m_ptOffset.x;
-		pt.y -= m_ptOffset.y;
+		pt.x -= this->m_ptOffset.x;
+		pt.y -= this->m_ptOffset.y;
 	}
 
 	void CenterOnPoint(POINT pt)
 	{
 		T* pT = static_cast<T*>(this);
-		RECT rect;
+		RECT rect = { 0 };
 		pT->GetClientRect(&rect);
 
-		int xOfs = pt.x - (rect.right / 2) + m_ptOffset.x;
+		int xOfs = pt.x - (rect.right / 2) + this->m_ptOffset.x;
 		if(xOfs < 0)
 		{
 			xOfs = 0;
 		}
 		else 
 		{
-			int xMax = max((int)(m_sizeAll.cx - rect.right), 0);
+			int xMax = __max((int)(this->m_sizeAll.cx - rect.right), 0);
 			if(xOfs > xMax)
 				xOfs = xMax;
 		}
 		
-		int yOfs = pt.y - (rect.bottom / 2) + m_ptOffset.y;
+		int yOfs = pt.y - (rect.bottom / 2) + this->m_ptOffset.y;
 		if(yOfs < 0)
 		{
 			yOfs = 0;
 		}
 		else 
 		{
-			int yMax = max((int)(m_sizeAll.cy - rect.bottom), 0);
+			int yMax = __max((int)(this->m_sizeAll.cy - rect.bottom), 0);
 			if(yOfs > yMax)
 				yOfs = yMax;
 		}
@@ -1592,8 +1665,8 @@ public:
 
 	BOOL PtInDevRect(POINT pt)
 	{
-		RECT rc = { 0, 0, m_sizeAll.cx, m_sizeAll.cy };
-		::OffsetRect(&rc, -m_ptOffset.x, -m_ptOffset.y);
+		RECT rc = { 0, 0, this->m_sizeAll.cx, this->m_sizeAll.cy };
+		::OffsetRect(&rc, -this->m_ptOffset.x, -this->m_ptOffset.y);
 		return ::PtInRect(&rc, pt);
 	}
 
@@ -1605,6 +1678,7 @@ public:
 			rc.right = rc.left;
 			rc.left = r;
 		}
+
 		if(rc.top > rc.bottom)
 		{
 			int b = rc.bottom;
@@ -1631,18 +1705,23 @@ public:
 	{
 		T* pT = static_cast<T*>(this);
 		int nId = pT->GetDlgCtrlID();
-		NMHDR nmhdr = { pT->m_hWnd, nId, ZSN_ZOOMCHANGED };
+		NMHDR nmhdr = { pT->m_hWnd, (UINT_PTR)nId, ZSN_ZOOMCHANGED };
 		::SendMessage(pT->GetParent(), WM_NOTIFY, (WPARAM)nId, (LPARAM)&nmhdr);
+	}
+
+	void DoWheelZoom(int zDelta)
+	{
+		float fZoomScale = m_fZoomScale + ((zDelta > 0) ? m_fZoomDelta : -m_fZoomDelta);
+		T* pT = static_cast<T*>(this);
+		pT->Zoom(fZoomScale);
+		pT->NotifyParentZoomChanged();
 	}
 
 	BEGIN_MSG_MAP(CZoomScrollImpl)
 		MESSAGE_HANDLER(WM_SETCURSOR, OnSetCursor)
 		MESSAGE_HANDLER(WM_VSCROLL, CScrollImpl< T >::OnVScroll)
 		MESSAGE_HANDLER(WM_HSCROLL, CScrollImpl< T >::OnHScroll)
-		MESSAGE_HANDLER(WM_MOUSEWHEEL, CScrollImpl< T >::OnMouseWheel)
-#if !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400))
-		MESSAGE_HANDLER(m_uMsgMouseWheel, CScrollImpl< T >::OnMouseWheel)
-#endif // !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400))
+		MESSAGE_HANDLER(WM_MOUSEWHEEL, OnMouseWheel)
 		MESSAGE_HANDLER(WM_MOUSEHWHEEL, CScrollImpl< T >::OnMouseHWheel)
 		MESSAGE_HANDLER(WM_SETTINGCHANGE, CScrollImpl< T >::OnSettingChange)
 		MESSAGE_HANDLER(WM_SIZE, CScrollImpl< T >::OnSize)
@@ -1667,12 +1746,50 @@ public:
 		COMMAND_ID_HANDLER(ID_SCROLL_ALL_RIGHT, CScrollImpl< T >::OnScrollAllRight)
 	END_MSG_MAP()
 
+	LRESULT OnSetCursor(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	{
+		if((LOWORD(lParam) == HTCLIENT) && (m_nZoomMode != ZOOMMODE_OFF))
+		{
+			T* pT = static_cast<T*>(this);
+			if((HWND)wParam == pT->m_hWnd)
+			{
+				DWORD dwPos = ::GetMessagePos();
+				POINT pt = { GET_X_LPARAM(dwPos), GET_Y_LPARAM(dwPos) };
+				pT->ScreenToClient(&pt);
+				if(pT->PtInDevRect(pt))
+				{
+					::SetCursor(::LoadCursor(NULL, IDC_CROSS));
+					return 1;
+				}
+			}
+		}
+
+		bHandled = FALSE;
+		return 0;
+	}
+
+	LRESULT OnMouseWheel(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+	{
+		if((GET_KEYSTATE_WPARAM(wParam) & MK_CONTROL) != 0)   // handle zoom if Ctrl is pressed
+		{
+			int zDelta = (int)GET_WHEEL_DELTA_WPARAM(wParam);
+			T* pT = static_cast<T*>(this);
+			pT->DoWheelZoom(zDelta);
+		}
+		else
+		{
+			CScrollImpl< T >::OnMouseWheel(uMsg, wParam, lParam, bHandled);
+		}
+
+		return 0;
+	}
+
 	LRESULT OnPaint(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 	{
 		T* pT = static_cast<T*>(this);
 		ATLASSERT(::IsWindow(pT->m_hWnd));
-		ATLASSERT(m_sizeLogAll.cx >= 0 && m_sizeLogAll.cy >= 0);
-		ATLASSERT(m_sizeAll.cx >= 0 && m_sizeAll.cy >= 0);
+		ATLASSERT((m_sizeLogAll.cx >= 0) && (m_sizeLogAll.cy >= 0));
+		ATLASSERT((this->m_sizeAll.cx >= 0) && (this->m_sizeAll.cy >= 0));
 
 		if(wParam != NULL)
 		{
@@ -1682,9 +1799,9 @@ public:
 			SIZE szWindowExt = { 0, 0 };
 			dc.SetWindowExt(m_sizeLogAll, &szWindowExt);
 			SIZE szViewportExt = { 0, 0 };
-			dc.SetViewportExt(m_sizeAll, &szViewportExt);
+			dc.SetViewportExt(this->m_sizeAll, &szViewportExt);
 			POINT ptViewportOrg = { 0, 0 };
-			dc.SetViewportOrg(-m_ptOffset.x, -m_ptOffset.y, &ptViewportOrg);
+			dc.SetViewportOrg(-this->m_ptOffset.x, -this->m_ptOffset.y, &ptViewportOrg);
 
 			pT->DoPaint(dc);
 
@@ -1699,12 +1816,13 @@ public:
 			pT->PrepareDC(dc.m_hDC);
 			pT->DoPaint(dc.m_hDC);
 		}
+
 		return 0;
 	}
 
 	LRESULT OnLButtonDown(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& bHandled)
 	{
-		if(m_nZoomMode == ZOOMMODE_IN && !m_bTracking)
+		if((m_nZoomMode == ZOOMMODE_IN) && !m_bTracking)
 		{
 			T* pT = static_cast<T*>(this);
 			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
@@ -1715,6 +1833,7 @@ public:
 				::SetRect(&m_rcTrack, pt.x, pt.y, pt.x, pt.y);
 			}	
 		}
+
 		bHandled = FALSE;
 		return 0;
 	}
@@ -1733,6 +1852,7 @@ public:
 				pT->DrawTrackRect();
 			}
 		}
+
 		bHandled = FALSE;
 		return 0;
 	}
@@ -1746,6 +1866,7 @@ public:
 			pT->Zoom(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam), m_fZoomScale - m_fZoomDelta);
 			pT->NotifyParentZoomChanged();
 		}
+
 		bHandled = FALSE;
 		return 0;
 	}
@@ -1761,30 +1882,10 @@ public:
 			pT->NotifyParentZoomChanged();
 			::SetRectEmpty(&m_rcTrack);
 		}
+
 		bHandled = FALSE;
 		return 0;
 	}	
-
-	LRESULT OnSetCursor(UINT /*uMsg*/, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
-	{
-		if(LOWORD(lParam) == HTCLIENT && m_nZoomMode != ZOOMMODE_OFF)
-		{
-			T* pT = static_cast<T*>(this);
-			if((HWND)wParam == pT->m_hWnd)
-			{
-				DWORD dwPos = ::GetMessagePos();
-				POINT pt = { GET_X_LPARAM(dwPos), GET_Y_LPARAM(dwPos) };
-				pT->ScreenToClient(&pt);
-				if(pT->PtInDevRect(pt))
-				{
-					::SetCursor(::LoadCursor(NULL, IDC_CROSS));
-					return 1;
-				}
-			}
-		}
-		bHandled = FALSE;
-		return 0;
-	}
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1794,14 +1895,27 @@ template <class T, class TBase = ATL::CWindow, class TWinTraits = ATL::CControlW
 class ATL_NO_VTABLE CZoomScrollWindowImpl : public ATL::CWindowImpl< T, TBase, TWinTraits >, public CZoomScrollImpl< T >
 {
 public:
+	BOOL SubclassWindow(HWND hWnd)
+	{
+		BOOL bRet = ATL::CWindowImpl< T, TBase, TWinTraits >::SubclassWindow(hWnd);
+		if(bRet != FALSE)
+		{
+			T* pT = static_cast<T*>(this);
+			pT->GetSystemSettings();
+
+			RECT rect = { 0 };
+			GetClientRect(&rect);
+			pT->DoSize(rect.right, rect.bottom);
+		}
+
+		return bRet;
+	}
+
 	BEGIN_MSG_MAP(CZoomScrollWindowImpl)
 		MESSAGE_HANDLER(WM_SETCURSOR, CZoomScrollImpl< T >::OnSetCursor)
 		MESSAGE_HANDLER(WM_VSCROLL, CScrollImpl< T >::OnVScroll)
 		MESSAGE_HANDLER(WM_HSCROLL, CScrollImpl< T >::OnHScroll)
-		MESSAGE_HANDLER(WM_MOUSEWHEEL, CScrollImpl< T >::OnMouseWheel)
-#if !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400))
-		MESSAGE_HANDLER(m_uMsgMouseWheel, CScrollImpl< T >::OnMouseWheel)
-#endif // !((_WIN32_WINNT >= 0x0400) || (_WIN32_WINDOWS > 0x0400))
+		MESSAGE_HANDLER(WM_MOUSEWHEEL, CZoomScrollImpl< T >::OnMouseWheel)
 		MESSAGE_HANDLER(WM_MOUSEHWHEEL, CScrollImpl< T >::OnMouseHWheel)
 		MESSAGE_HANDLER(WM_SETTINGCHANGE, CScrollImpl< T >::OnSettingChange)
 		MESSAGE_HANDLER(WM_SIZE, CScrollImpl< T >::OnSize)
@@ -1826,8 +1940,6 @@ public:
 		COMMAND_ID_HANDLER(ID_SCROLL_ALL_RIGHT, CScrollImpl< T >::OnScrollAllRight)
 	END_MSG_MAP()
 };
-
-#endif // !_WIN32_WCE
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1877,7 +1989,7 @@ public:
 			{
 				RECT rect = { 0 };
 				m_wndClient.GetWindowRect(&rect);
-				if((rect.right - rect.left) > 0 && (rect.bottom - rect.top) > 0)
+				if(((rect.right - rect.left) > 0) && ((rect.bottom - rect.top) > 0))
 					SetScrollSize(rect.right - rect.left, rect.bottom - rect.top, FALSE);
 			}
 
@@ -1895,7 +2007,6 @@ public:
 	BEGIN_MSG_MAP(CScrollContainerImpl)
 		MESSAGE_HANDLER(WM_SETFOCUS, OnSetFocus)
 		MESSAGE_HANDLER(WM_ERASEBKGND, OnEraseBackground)
-		MESSAGE_HANDLER(WM_SIZE, OnSize)
 		CHAIN_MSG_MAP(_baseClass)
 		FORWARD_NOTIFICATIONS()
 	ALT_MSG_MAP(1)
@@ -1915,27 +2026,24 @@ public:
 		return 1;   // no background needed
 	}
 
-	LRESULT OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& /*bHandled*/)
+// Overrides for CScrollWindowImpl
+	void DoSize(int cx, int cy)
 	{
-		BOOL bTmp = TRUE;
-		LRESULT lRet = _baseClass::OnSize(uMsg, wParam, lParam, bTmp);
+		_baseClass::DoSize(cx, cy);
 
 		T* pT = static_cast<T*>(this);
 		pT->UpdateLayout();
-
-		return lRet;
 	}
 
-// Overrides for CScrollWindowImpl
 	void DoPaint(CDCHandle dc)
 	{
-		if(!m_bAutoSizeClient || m_wndClient.m_hWnd == NULL)
+		if(!m_bAutoSizeClient || (m_wndClient.m_hWnd == NULL))
 		{
 			T* pT = static_cast<T*>(this);
 			RECT rect = { 0 };
 			pT->GetContainerRect(rect);
 
-			if(m_bDrawEdgeIfEmpty && m_wndClient.m_hWnd == NULL)
+			if(m_bDrawEdgeIfEmpty && (m_wndClient.m_hWnd == NULL))
 				dc.DrawEdge(&rect, EDGE_SUNKEN, BF_RECT | BF_ADJUST);
 
 			dc.FillRect(&rect, COLOR_APPWORKSPACE);
@@ -1968,9 +2076,9 @@ public:
 // Implementation - overrideable methods
 	void UpdateLayout()
 	{
-		ATLASSERT(::IsWindow(m_hWnd));
+		ATLASSERT(::IsWindow(this->m_hWnd));
 
-		if(m_bAutoSizeClient && m_wndClient.m_hWnd != NULL)
+		if(m_bAutoSizeClient && (m_wndClient.m_hWnd != NULL))
 		{
 			T* pT = static_cast<T*>(this);
 			RECT rect = { 0 };
@@ -1980,19 +2088,19 @@ public:
 		}
 		else
 		{
-			Invalidate();
+			this->Invalidate();
 		}
 	}
 
 	void GetContainerRect(RECT& rect)
 	{
-		GetClientRect(&rect);
+		this->GetClientRect(&rect);
 
-		if(rect.right < m_sizeAll.cx)
-			rect.right = m_sizeAll.cx;
+		if(rect.right < this->m_sizeAll.cx)
+			rect.right = this->m_sizeAll.cx;
 
-		if(rect.bottom < m_sizeAll.cy)
-			rect.bottom = m_sizeAll.cy;
+		if(rect.bottom < this->m_sizeAll.cy)
+			rect.bottom = this->m_sizeAll.cy;
 	}
 };
 

@@ -15,11 +15,8 @@ be found in the Authors.txt file in the root of the source tree.
 
 #pragma once
 
-// Change these values to use different versions
-#define WINVER		0x0501
-#define _WIN32_WINNT	0x0501
-#define _WIN32_IE	0x0600
-#define _RICHEDIT_VER	0x0200
+// Target Windows SDK Version
+#include <SDKDDKVer.h>
 
 #include <errno.h>
 #include <atldef.h>

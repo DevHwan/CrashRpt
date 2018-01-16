@@ -235,7 +235,7 @@ BEGIN
             VALUE "FileDescription", "TODO: <File description>"
             VALUE "FileVersion", "1.4.0.3"
             VALUE "InternalName", "MFCDemo.exe"
-            VALUE "LegalCopyright", "Copyright 2003-2013 The CrashRpt project Authors"
+            VALUE "LegalCopyright", "Copyright 2003-2018 The CrashRpt project Authors"
             VALUE "OriginalFilename", "MFCDemo.exe"
             VALUE "ProductName", "CrashRpt"
             VALUE "ProductVersion", "1.4.0.3"

@@ -70,7 +70,7 @@ BEGIN
             VALUE "FileDescription", "Crash Handling Module"
             VALUE "FileVersion", "1.4.0.3"
             VALUE "InternalName", "CrashRpt"
-            VALUE "LegalCopyright", "Copyright 2003-2013 The CrashRpt Project Authors"
+            VALUE "LegalCopyright", "Copyright 2003-2018 The CrashRpt Project Authors"
             VALUE "OriginalFilename", "CrashRpt.dll"
             VALUE "ProductName", "CrashRpt"
             VALUE "ProductVersion", "1.4.0.3"

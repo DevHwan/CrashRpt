@@ -181,7 +181,7 @@ BEGIN
             VALUE "FileDescription", "CrashRptTest Module"
             VALUE "FileVersion", "1.4.0.3"
             VALUE "InternalName", "CrashRptTest"
-            VALUE "LegalCopyright", "Copyright 2003-2013 The Crash Rpt Project Authors"
+            VALUE "LegalCopyright", "Copyright 2003-2018 The Crash Rpt Project Authors"
             VALUE "OriginalFilename", "CrashRptTest.exe"
             VALUE "ProductName", "CrashRpt"
             VALUE "ProductVersion", "1.4.0.3"

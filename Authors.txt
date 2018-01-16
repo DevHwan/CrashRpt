@@ -1,7 +1,8 @@
 CrashRpt Project Authors: 
 
 Mike Carruth - CrashRpt project originator
-Oleg Krivtsov (zexspectrum) - current CrashRpt project maintainer
+Oleg Krivtsov (zexspectrum)
+Yong-Hwan Baek (DevHwan)
 
 Also thanks to:
 

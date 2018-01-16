@@ -314,7 +314,7 @@ BEGIN
             VALUE "FileDescription", "Crash Report Delivery Module"
             VALUE "FileVersion", "1.4.0.3"
             VALUE "InternalName", "CrashSender"
-            VALUE "LegalCopyright", "Copyright 2003-2013 The CrashRpt Project Authors"
+            VALUE "LegalCopyright", "Copyright 2003-2018 The CrashRpt Project Authors"
             VALUE "OriginalFilename", "CrashSender.exe"
             VALUE "ProductName", "CrashRpt"
             VALUE "ProductVersion", "1.4.0.3"

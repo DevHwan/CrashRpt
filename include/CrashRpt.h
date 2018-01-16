@@ -1,6 +1,6 @@
 /************************************************************************************* 
 This file is a part of CrashRpt library.
-Copyright (c) 2003-2013 The CrashRpt project authors. All Rights Reserved.
+Copyright (c) 2003-2018 The CrashRpt project authors. All Rights Reserved.
 
 Use of this source code is governed by a BSD-style license
 that can be found in the License.txt file in the root of the source
@@ -44,7 +44,7 @@ be found in the Authors.txt file in the root of the source tree.
 #define CRASHRPTAPI(rettype) CRASHRPT_EXTERNC rettype WINAPI
 
 //! Current CrashRpt version
-#define CRASHRPT_VER 1403
+#define CRASHRPT_VER 1500
 
 /*! \defgroup CrashRptAPI CrashRpt Functions */
 /*! \defgroup DeprecatedAPI Obsolete Functions */

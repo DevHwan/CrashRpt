@@ -343,3 +343,7 @@ __pycache__/
 
 
 # End of https://www.gitignore.io/api/git,cmake,windows,visualstudio,visualstudiocode
+
+# Project Settings
+[Bb]in/
+[Ll]ib/

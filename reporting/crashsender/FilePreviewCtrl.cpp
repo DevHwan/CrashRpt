@@ -344,6 +344,8 @@ BOOL CImage::LoadBitmapFromPNGFile(LPTSTR szFileName)
     png_uint_32 width = 0;
     png_uint_32 height = 0;
     png_bytep row = NULL;
+    png_byte color_type;
+    int channels = 0;
     int y = 0;
     BITMAPINFO* pBMI = NULL;
     HDC hDC = NULL;
@@ -365,7 +367,7 @@ BOOL CImage::LoadBitmapFromPNGFile(LPTSTR szFileName)
     if (!png_ptr)
         goto cleanup;
 
-    if (setjmp(png_ptr->jmpbuf)) 
+    if (setjmp(png_jmpbuf(png_ptr))) 
         goto cleanup;
 
     info_ptr = png_create_info_struct(png_ptr);
@@ -389,12 +391,30 @@ BOOL CImage::LoadBitmapFromPNGFile(LPTSTR szFileName)
     width = png_get_image_width(png_ptr, info_ptr);
     height = png_get_image_height(png_ptr, info_ptr);
 
-    if(info_ptr->channels==3)
+    color_type = png_get_color_type(png_ptr, info_ptr);
+    if(color_type == PNG_COLOR_TYPE_RGB)
     {
+        channels = 3;
         png_set_strip_16(png_ptr);
         png_set_packing(png_ptr); 
         png_set_bgr(png_ptr);
     }
+    else if (color_type == PNG_COLOR_TYPE_RGBA)
+    {
+        channels = 4;
+    }
+    else if (color_type == PNG_COLOR_TYPE_GRAY)
+    {
+        channels = 1;
+    }
+    else if (color_type == PNG_COLOR_TYPE_GA)
+    {
+        channels = 2;
+    }
+
+    if (channels == 0)
+        goto cleanup;
+
 
     hDC = GetDC(NULL);
 
@@ -408,14 +428,14 @@ BOOL CImage::LoadBitmapFromPNGFile(LPTSTR szFileName)
     pBMI = (BITMAPINFO*)new BYTE[sizeof(BITMAPINFO)+256*4];
     memset(pBMI, 0, sizeof(BITMAPINFO)+256*4);  
     pBMI->bmiHeader.biSize = sizeof(BITMAPINFO);
-    pBMI->bmiHeader.biBitCount = 8*info_ptr->channels;
+    pBMI->bmiHeader.biBitCount = 8*channels;
     pBMI->bmiHeader.biWidth = width;
     pBMI->bmiHeader.biHeight = height;
     pBMI->bmiHeader.biPlanes = 1;
     pBMI->bmiHeader.biCompression = BI_RGB;
     pBMI->bmiHeader.biSizeImage = rowbytes*height;
 
-    if( info_ptr->channels == 1 )
+    if( channels == 1 )
     {
         RGBQUAD* palette = pBMI->bmiColors;
 
@@ -431,7 +451,7 @@ BOOL CImage::LoadBitmapFromPNGFile(LPTSTR szFileName)
 
     for(y=height-1; y>=0; y--)
     {
-        png_read_rows(png_ptr, &row, png_bytepp_NULL, 1); 
+        png_read_rows(png_ptr, &row, nullptr, 1); 
 
         {
             CAutoLock lock(&m_csLock);

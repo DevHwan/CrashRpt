@@ -1829,7 +1829,7 @@ BOOL CErrorReportSender::CompressReportFiles(CErrorReportInfo* eri)
     m_Assync.SetProgress(sMsg, 1, false);
 
 	// Create ZIP archive
-    hZip = zipOpen((const char*)m_sZipName.GetBuffer(0), APPEND_STATUS_CREATE);
+    hZip = zipOpen((const char*)CT2CA(m_sZipName).m_psz, APPEND_STATUS_CREATE);
     if(hZip==NULL)
     {
         m_Assync.SetProgress(_T("Failed to create ZIP file."), 100, true);

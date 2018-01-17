@@ -191,12 +191,8 @@
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Link>
-    <PostBuildEvent>
-      <Command>copy "$(SolutionDir)dbghelp\bin\dbghelp.dll" "$(OutDir)"
-copy "dummy.ini" "$(OutDir)"
-copy "dummy.log" "$(OutDir)"
-</Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
@@ -238,12 +234,8 @@ copy "dummy.log" "$(OutDir)"
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Link>
-    <PostBuildEvent>
-      <Command>copy "$(SolutionDir)thirdparty\dbghelp\bin\dbghelp.dll" "$(OutDir)"
-copy "dummy.ini" "$(OutDir)"
-copy "dummy.log" "$(OutDir)"
-</Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
@@ -283,12 +275,8 @@ copy "dummy.log" "$(OutDir)"
       <TargetMachine>MachineX64</TargetMachine>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Link>
-    <PostBuildEvent>
-      <Command>copy "$(SolutionDir)dbghelp\bin\dbghelp.dll" "$(OutDir)"
-copy "dummy.ini" "$(OutDir)"
-copy "dummy.log" "$(OutDir)"
-</Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|Win32'">
     <Midl>
@@ -327,12 +315,8 @@ copy "dummy.log" "$(OutDir)"
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
-    <PostBuildEvent>
-      <Command>copy "$(SolutionDir)thirdparty\dbghelp\bin\dbghelp.dll" "$(OutDir)"
-copy "dummy.ini" "$(OutDir)"
-copy "dummy.log" "$(OutDir)"
-</Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release LIB|x64'">
     <Midl>
@@ -369,11 +353,8 @@ copy "dummy.log" "$(OutDir)"
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
-    <PostBuildEvent>
-      <Command>copy "$(SolutionDir)dbghelp\bin\dbghelp.dll" "$(OutDir)"
-copy "dummy.ini" "$(OutDir)"
-copy "dummy.log" "$(OutDir)"</Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -391,11 +372,8 @@ copy "dummy.log" "$(OutDir)"</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Link>
-    <PostBuildEvent>
-      <Command>copy "$(SolutionDir)dbghelp\bin\dbghelp.dll" "$(OutDir)"
-copy "dummy.ini" "$(OutDir)"
-copy "dummy.log" "$(OutDir)"</Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CrashThread.cpp" />

@@ -365,13 +365,14 @@ int CCrashDescReader::Load(CString sFileName)
             const char* szFileName = hFileItem.ToElement()->Attribute("name");
             const char* szFileDescription = hFileItem.ToElement()->Attribute("description");
 
-            CString sFileName, sFileDescription;
+            CString _sFileName;
+            CString _sFileDescription;
             if(szFileName!=NULL)
-                sFileName = strconv.utf82t(szFileName);    
+                _sFileName = strconv.utf82t(szFileName);
             if(szFileName!=NULL)
-                sFileDescription = strconv.utf82t(szFileDescription);    
+                _sFileDescription = strconv.utf82t(szFileDescription);    
 
-            m_aFileItems[sFileName]=sFileDescription;
+            m_aFileItems[_sFileName]= _sFileDescription;
 
             hFileItem = hFileItem.ToElement()->NextSibling();
         }

@@ -244,8 +244,8 @@ int CCrashHandler::Init(
     if(m_sEmailSubject.IsEmpty())
     {
         // Generate the default subject
-        m_sEmailSubject.Format(_T("%s %s Error Report"), m_sAppName, 
-            m_sAppVersion.IsEmpty()?_T("[unknown_ver]"):m_sAppVersion);
+        m_sEmailSubject.Format(_T("%s %s Error Report"), m_sAppName.GetString(), 
+            m_sAppVersion.IsEmpty()?_T("[unknown_ver]"):m_sAppVersion.GetString());
     }
 
     // Save Email text.
@@ -383,7 +383,7 @@ int CCrashHandler::Init(
         DWORD dwCSIDL = CSIDL_LOCAL_APPDATA;
         Utility::GetSpecialFolder(dwCSIDL, sLocalAppDataFolder);
         m_sUnsentCrashReportsFolder.Format(_T("%s\\CrashRpt\\UnsentCrashReports\\%s_%s"), 
-            sLocalAppDataFolder, m_sAppName, m_sAppVersion);
+            sLocalAppDataFolder.GetString(), m_sAppName.GetString(), m_sAppVersion.GetString());
     }
     else
     {    
@@ -512,7 +512,7 @@ CRASH_DESCRIPTION* CCrashHandler::PackCrashInfoIntoSharedMem(CSharedMem* pShared
 
     CString sSharedMemName;
     if(bTempMem)
-        sSharedMemName.Format(_T("%s-tmp"), m_sCrashGUID);    
+        sSharedMemName.Format(_T("%s-tmp"), m_sCrashGUID.GetString());    
     else 
         sSharedMemName = m_sCrashGUID;
 
@@ -1246,7 +1246,7 @@ int CCrashHandler::AddVideo(DWORD dwFlags, int nDuration, int nFrameInterval,
 	
 	// Create sync event (we will use it for synchronizing with CrashSender.exe).
 	CString sEventName;
-    sEventName.Format(_T("Local\\CrashRptEvent_%s_2"), m_sCrashGUID);
+    sEventName.Format(_T("Local\\CrashRptEvent_%s_2"), m_sCrashGUID.GetString());
     m_hEvent2 = CreateEvent(NULL, FALSE, FALSE, sEventName);
     if(m_hEvent2==NULL)
     {
@@ -1420,7 +1420,7 @@ int CCrashHandler::GenerateErrorReport(
         // Failed to launch crash sender process.
         // Try notifying user about crash using message box.
         CString szCaption;
-        szCaption.Format(_T("%s has stopped working"), Utility::getAppName());
+        szCaption.Format(_T("%s has stopped working"), Utility::getAppName().GetString());
         CString szMessage;
         szMessage.Format(_T("Error launching CrashSender.exe"));
         MessageBox(NULL, szMessage, szCaption, MB_OK|MB_ICONERROR);    
@@ -1665,16 +1665,16 @@ int CCrashHandler::PerCrashInit()
 	if(m_hEvent!=NULL)
 		CloseHandle(m_hEvent); // Free old event
     CString sEventName;
-    sEventName.Format(_T("Local\\CrashRptEvent_%s"), m_sCrashGUID);
+    sEventName.Format(_T("Local\\CrashRptEvent_%s"), m_sCrashGUID.GetString());
     m_hEvent = CreateEvent(NULL, FALSE, FALSE, sEventName);
     
 	// Format error report dir name for the next crash report.
 	CString sErrorReportDirName;
 	sErrorReportDirName.Format(_T("%s\\%s_%s\\%s"), 
-		m_sUnsentCrashReportsFolder.GetBuffer(0),
-		m_sAppName.GetBuffer(0),
-		m_sAppVersion.GetBuffer(0),
-		m_sCrashGUID.GetBuffer(0)
+		m_sUnsentCrashReportsFolder.GetString(),
+		m_sAppName.GetString(),
+		m_sAppVersion.GetString(),
+		m_sCrashGUID.GetString()
 		);
 
 	// Convert it to wide-char and multi-byte charsets.

@@ -309,6 +309,11 @@
   <ItemGroup>
     <None Include="CrashRptProbe.def" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\thirdparty\zlib\minizip.vcxproj">
+      <Project>{48cdd9dc-e09f-4135-9c0c-4fe50c3c654b}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

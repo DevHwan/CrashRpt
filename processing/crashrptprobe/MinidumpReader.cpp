@@ -333,7 +333,7 @@ int CMiniDumpReader::ReadExceptionStream()
             {
                 sMsg.Format(_T("Unhandled exception at 0x%I64x in %s: 0x%x : %s"),
                     m_DumpData.m_uExceptionAddress,
-                    m_DumpData.m_Modules[nExcModuleRowID].m_sModuleName,
+                    m_DumpData.m_Modules[nExcModuleRowID].m_sModuleName.GetBuffer(),
                     m_DumpData.m_uExceptionCode,
                     _T("Exception description.")
                     );
@@ -442,9 +442,9 @@ int CMiniDumpReader::ReadModuleListStream()
 
                 CString sMsg;
                 if(m.m_bImageUnmatched)
-                    sMsg.Format(_T("Loaded '*%s'"), sModuleName);
+                    sMsg.Format(_T("Loaded '*%s'"), sModuleName.GetString());
                 else
-                    sMsg.Format(_T("Loaded '%s'"), m.m_sLoadedImageName);
+                    sMsg.Format(_T("Loaded '%s'"), m.m_sLoadedImageName.GetString());
 
                 if(m.m_bImageUnmatched)
                     sMsg += _T(", No matching binary found.");          

@@ -348,11 +348,11 @@ int process_report(LPTSTR szInput, LPTSTR szInputMD5, LPTSTR szOutput,
         if(bInputMD5FromDir)
         {
             sMD5DirName = szInputMD5;
-            int pos = sMD5DirName.rfind('\\');
-            if(pos<0) // There is no back slash in path
+            const auto posMD5Dir = sMD5DirName.rfind('\\');
+            if(posMD5Dir<0) // There is no back slash in path
                 sMD5DirName = _T(""); 
-            else if(pos!=(int)sMD5DirName.length()-1) // Append the back slash to dir name
-                sMD5DirName = sMD5DirName.substr(0, pos+1);
+            else if(posMD5Dir !=(int)sMD5DirName.length()-1) // Append the back slash to dir name
+                sMD5DirName = sMD5DirName.substr(0, posMD5Dir +1);
         }
     }
     else
@@ -817,33 +817,33 @@ int output_document(CrpHandle hReport, FILE* f)
                 get_prop(hReport, sStackTableId.c_str(), CRP_COL_STACK_SOURCE_FILE, sSourceFile, j);              
                 get_prop(hReport, sStackTableId.c_str(), CRP_COL_STACK_SOURCE_LINE, sSourceLine, j);              
 
-                tstring str;
-                str = sModuleName;
-                if(!str.empty())
-                    str += _T("!");
+                tstring strModule;
+                strModule = sModuleName;
+                if(!strModule.empty())
+                    strModule += _T("!");
 
                 if(sSymbolName.empty())
-                    str += sAddrPCOffset;  
+                    strModule += sAddrPCOffset;
                 else
                 {
-                    str += sSymbolName;
-                    str += _T("+");
-                    str += sOffsInSymbol;
+                    strModule += sSymbolName;
+                    strModule += _T("+");
+                    strModule += sOffsInSymbol;
                 }
 
                 if(!sSourceFile.empty())
                 {
-                    int pos = sSourceFile.rfind('\\');
-                    if(pos>=0)
-                        sSourceFile = sSourceFile.substr(pos+1);
-                    str += _T(" [ ");
-                    str += sSourceFile;
-                    str += _T(": ");
-                    str += sSourceLine;
-                    str += _T(" ] ");
+                    const auto posSourceDir = sSourceFile.rfind('\\');
+                    if(posSourceDir >=0)
+                        sSourceFile = sSourceFile.substr(posSourceDir +1);
+                    strModule += _T(" [ ");
+                    strModule += sSourceFile;
+                    strModule += _T(": ");
+                    strModule += sSourceLine;
+                    strModule += _T(" ] ");
                 } 
 
-                doc.PutTableCell(str.c_str(), 32, true);                    
+                doc.PutTableCell(strModule.c_str(), 32, true);
             }       
 
             doc.EndSection();

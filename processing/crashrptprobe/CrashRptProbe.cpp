@@ -523,7 +523,7 @@ crpGetPropertyW(
         return -1;
     }
 
-    std::map<int, CrpReportData>::iterator it = g_OpenedHandles.find(hReport);
+    const auto it = g_OpenedHandles.find(hReport);
     if(it==g_OpenedHandles.end())
     {
         crpSetErrorMsg(_T("Invalid handle specified."));
@@ -811,14 +811,14 @@ crpGetPropertyW(
             }
             else
             {
-                std::map<CString, CString>::iterator it = pDescReader->m_aFileItems.begin();
+                auto itrFileItems = pDescReader->m_aFileItems.begin();
                 int i;
-                for(i=0; i<nRowIndex; i++) it++;
+                for(i=0; i<nRowIndex; i++) ++itrFileItems;
 
                 if(sColumnId.Compare(CRP_COL_FILE_ITEM_NAME)==0)
-                    pszPropVal = strconv.t2w(it->first);    
+                    pszPropVal = strconv.t2w(itrFileItems->first);
                 else
-                    pszPropVal = strconv.t2w(it->second);    
+                    pszPropVal = strconv.t2w(itrFileItems->second);
             }
         }
         else
@@ -848,14 +848,14 @@ crpGetPropertyW(
         else if( sColumnId.Compare(CRP_COL_PROPERTY_NAME)==0 || 
             sColumnId.Compare(CRP_COL_PROPERTY_VALUE)==0 )
         { 
-            std::map<CString, CString>::iterator it = pDescReader->m_aCustomProps.begin();
+            auto itrCustomProps = pDescReader->m_aCustomProps.begin();
             int i;
-            for(i=0; i<nRowIndex; i++) it++;
+            for(i=0; i<nRowIndex; i++) ++itrCustomProps;
 
             if(sColumnId.Compare(CRP_COL_PROPERTY_NAME)==0)
-                pszPropVal = strconv.t2w(it->first);    
+                pszPropVal = strconv.t2w(itrCustomProps->first);
             else
-                pszPropVal = strconv.t2w(it->second);          
+                pszPropVal = strconv.t2w(itrCustomProps->second);
         }
         else
         {

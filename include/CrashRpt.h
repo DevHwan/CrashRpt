@@ -1614,7 +1614,7 @@ crExceptionFilter(
 
 CRASHRPTAPI(int)
 crEmulateCrash(
-               unsigned ExceptionType) throw (...);
+               unsigned ExceptionType) noexcept(false);
 
 
 

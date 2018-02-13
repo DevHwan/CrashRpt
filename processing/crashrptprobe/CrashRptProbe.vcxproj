@@ -148,6 +148,7 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\wtl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -172,6 +173,7 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\wtl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -195,6 +197,7 @@
       <Optimization>MinSpace</Optimization>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\wtl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -221,6 +224,7 @@
       <Optimization>MinSpace</Optimization>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\wtl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -246,6 +250,7 @@
       <Optimization>MinSpace</Optimization>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\wtl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -264,6 +269,7 @@
       <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <ResourceCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\wtl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

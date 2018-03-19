@@ -815,7 +815,7 @@ static void CauseStackOverflow()
 }
 
 CRASHRPTAPI(int) 
-crEmulateCrash(unsigned ExceptionType) throw (...)
+crEmulateCrash(unsigned ExceptionType) noexcept(false)
 {
     crSetErrorMsg(_T("Unspecified error."));
 

@@ -2590,11 +2590,11 @@ int CErrorReportSender::TerminateAllCrashSenderProcesses()
 	// to replace the locked files.
 	
 	// Format process name.
-	CString sProcessName;
+    CString sProcessName;
 #ifdef _DEBUG
-	sProcessName.Format(_T("CrashSender%dd.exe"), CRASHRPT_VER);
+    sProcessName.Format(_T("CrashSender%dd.exe"), CRASHRPT_VER);
 #else
-	sProcessName.Format(_T("CrashSender%d.exe"), CRASHRPT_VER);
+    sProcessName.Format(_T("CrashSender%d.exe"), CRASHRPT_VER);
 #endif
 
 	PROCESSENTRY32 entry;

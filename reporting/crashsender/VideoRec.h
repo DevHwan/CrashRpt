@@ -14,9 +14,11 @@ be found in the Authors.txt file in the root of the source tree.
 // Date: Sep 2013
 
 #pragma once
-#include "stdafx.h"
+
+#include "CrashSenderCommonDef.h"
+
 #include "ScreenCap.h"
-#include "theora/theoraenc.h"
+#include <theora/theoraenc.h>
 
 // class CVideoRecorder
 // Captures desktop and writes the video frames as raw uncompressed BMP files

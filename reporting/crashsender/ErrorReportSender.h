@@ -13,7 +13,7 @@ be found in the Authors.txt file in the root of the source tree.
 #include "MailMsg.h"
 #include "smtpclient.h"
 #include "HttpRequestSender.h"
-#include "tinyxml.h"
+#include <tinyxml.h>
 #include "CrashInfoReader.h"
 #include "VideoRec.h"
 

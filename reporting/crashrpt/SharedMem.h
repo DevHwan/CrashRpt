@@ -14,7 +14,8 @@ be found in the Authors.txt file in the root of the source tree.
 // Date: 2010
 
 #pragma once
-#include "stdafx.h"
+
+#include "CrashRptCommonDef.h"
 #include "CritSec.h"
 
 // Generic block header.

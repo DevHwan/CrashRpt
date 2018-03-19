@@ -39,6 +39,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #pragma once
 
 #include <windows.h>
+#include <cassert>
 
 #if _MSC_VER<1400
 #pragma warning(disable: 4616)  //warning C4616: #pragma warning : warning number '6255' out of range, must be between '4001' and '4999'

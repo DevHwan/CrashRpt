@@ -18,8 +18,6 @@ be found in the Authors.txt file in the root of the source tree.
 #include <process.h>
 #include "CrashRpt.h" // Include CrashRpt header
 
-LPVOID lpvState = NULL; // Not used, deprecated
-
 int main(int argc, char* argv[])
 {
     argc; // this is to avoid C4100 unreferenced formal parameter warning
@@ -36,7 +34,7 @@ int main(int argc, char* argv[])
     info.pszEmailTo = _T("test@hotmail.com");      // Email recipient address
 
     // Install crash handlers
-    int nInstResult = crInstall(&info);            
+    int nInstResult = crInstall(&info);
     assert(nInstResult==0);
 
     // Check result
@@ -56,13 +54,9 @@ int main(int argc, char* argv[])
         *p = 0; // Access violation
     }
 
-#ifdef TEST_DEPRECATED_FUNCS
-    Uninstall(lpvState); // Uninstall exception handlers
-#else
     int nUninstRes = crUninstall(); // Uninstall exception handlers
     assert(nUninstRes==0);
     nUninstRes;
-#endif //TEST_DEPRECATED_FUNCS
 
     // Exit
     return 0;

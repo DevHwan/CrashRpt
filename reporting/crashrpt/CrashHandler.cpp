@@ -42,11 +42,10 @@ CCrashHandler::CCrashHandler()
     // Init member variables to their defaults
     m_bInitialized = FALSE;  
     m_dwFlags = 0;
-    m_MinidumpType = MiniDumpNormal;    
+    m_MinidumpType = MiniDumpNormal;
     m_nSmtpPort = 25;
     m_nSmtpProxyPort = 2525;
-    memset(&m_uPriorities, 0, 3*sizeof(UINT));    
-    m_lpfnCallback = NULL;
+    memset(&m_uPriorities, 0, 3*sizeof(UINT));
 	m_bAddScreenshot = FALSE;	
     m_dwScreenshotFlags = 0;    
     m_nJpegQuality = 95;
@@ -81,7 +80,6 @@ int CCrashHandler::Init(
         LPCTSTR lpcszAppName,
         LPCTSTR lpcszAppVersion,
         LPCTSTR lpcszCrashSenderPath,
-        LPGETLOGFILE lpfnCallback, 
         LPCTSTR lpcszTo, 
         LPCTSTR lpcszSubject,
         LPCTSTR lpcszUrl,
@@ -112,9 +110,6 @@ int CCrashHandler::Init(
     // Save minidump type  
     m_MinidumpType = MiniDumpType;
 
-    // Save user supplied callback (obsolete)
-    m_lpfnCallback = lpfnCallback;
-	
     // Save application name
     m_sAppName = lpcszAppName;
 
@@ -807,7 +802,7 @@ int CCrashHandler::SetProcessExceptionHandlers(DWORD dwFlags)
     if((dwFlags&CR_INST_ALL_POSSIBLE_HANDLERS)==0)
         dwFlags |= CR_INST_ALL_POSSIBLE_HANDLERS;
 
-    if(dwFlags&CR_INST_STRUCTURED_EXCEPTION_HANDLER)
+    if(dwFlags&CR_INST_SEH_EXCEPTION_HANDLER)
     {
         // Install top-level SEH handler
         m_oldSehHandler = SetUnhandledExceptionFilter(SehHandler);    
@@ -1332,18 +1327,6 @@ int CCrashHandler::GenerateErrorReport(
         m_pCrashDesc->m_dwInvParamFunctionOffs = PackString(pExceptionInfo->function);
         m_pCrashDesc->m_dwInvParamFileOffs = PackString(pExceptionInfo->file);
         m_pCrashDesc->m_uInvParamLine = pExceptionInfo->line;
-    }
-	    
-    // Let client know about the crash via the crash callback function. 
-    if (m_lpfnCallback!=NULL && m_lpfnCallback(NULL)==FALSE)
-    {
-		// User has canceled error report generation!
-
-		// Prepare for the next crash
-		PerCrashInit();
-
-        crSetErrorMsg(_T("The operation was cancelled by client."));
-        return 2;
     }
 
 	// New-style callback

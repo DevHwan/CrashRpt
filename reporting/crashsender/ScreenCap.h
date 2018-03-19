@@ -8,10 +8,12 @@ tree. All contributing project authors may
 be found in the Authors.txt file in the root of the source tree.
 ***************************************************************************************/
 
+#pragma once
+
 #ifndef __SCREENCAP_H__
 #define __SCREENCAP_H__
 
-#include "stdafx.h"
+#include "CrashSenderCommonDef.h"
 
 extern "C" {
 #include "png.h"

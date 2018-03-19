@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\crashrpt\SharedMem.cpp" />
+    <ClCompile Include="..\crashrpt\Utility.cpp" />
+    <ClCompile Include="AssyncNotification.cpp" />
+    <ClCompile Include="CrashInfoReader.cpp" />
+    <ClCompile Include="CrashSender.cpp" />
+    <ClCompile Include="DetailDlg.cpp" />
+    <ClCompile Include="ErrorReportDlg.cpp" />
+    <ClCompile Include="ErrorReportSender.cpp" />
+    <ClCompile Include="FilePreviewCtrl.cpp" />
+    <ClCompile Include="HttpRequestSender.cpp" />
+    <ClCompile Include="MailMsg.cpp" />
+    <ClCompile Include="ProgressDlg.cpp" />
+    <ClCompile Include="ResendDlg.cpp" />
+    <ClCompile Include="ScreenCap.cpp" />
+    <ClCompile Include="smtpclient.cpp" />
+    <ClCompile Include="VideoRec.cpp" />
+    <ClCompile Include="VideoRecDlg.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <Filter>..Precomp</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\crashrpt\Utility.h" />
+    <ClInclude Include="AssyncNotification.h" />
+    <ClInclude Include="CrashInfoReader.h" />
+    <ClInclude Include="DetailDlg.h" />
+    <ClInclude Include="ErrorReportDlg.h" />
+    <ClInclude Include="ErrorReportSender.h" />
+    <ClInclude Include="FilePreviewCtrl.h" />
+    <ClInclude Include="HttpRequestSender.h" />
+    <ClInclude Include="MailMsg.h" />
+    <ClInclude Include="ProgressDlg.h" />
+    <ClInclude Include="ResendDlg.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="ScreenCap.h" />
+    <ClInclude Include="SequenceLayout.h" />
+    <ClInclude Include="smtpclient.h" />
+    <ClInclude Include="VideoRec.h" />
+    <ClInclude Include="VideoRecDlg.h" />
+    <ClInclude Include="stdafx.h">
+      <Filter>..Precomp</Filter>
+    </ClInclude>
+    <ClInclude Include="CrashSenderCommonDef.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\CrashSender.ico">
+      <Filter>..Resources</Filter>
+    </None>
+    <None Include="res\VideoRec.ico">
+      <Filter>..Resources</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="..Precomp">
+      <UniqueIdentifier>{6d85ba39-600a-4917-9d5f-39cf82b0c96d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..Resources">
+      <UniqueIdentifier>{0c73b827-a458-479a-b075-13e029be6281}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CrashSender.rc">
+      <Filter>..Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

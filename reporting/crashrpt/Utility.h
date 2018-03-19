@@ -13,10 +13,12 @@ be found in the Authors.txt file in the root of the source tree.
 // Authors: mikecarruth, zexspectrum
 // Date: 
 
+#pragma once
+
 #ifndef _UTILITY_H_
 #define _UTILITY_H_
 
-#include "stdafx.h"
+#include "CrashRptCommonDef.h"
 
 namespace Utility  
 {

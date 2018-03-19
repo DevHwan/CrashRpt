@@ -14,13 +14,14 @@ be found in the Authors.txt file in the root of the source tree.
 // Date: 2009
 
 #pragma once
-#include "stdafx.h"
+
+#include "CrashSenderCommonDef.h"
 
 struct AssyncNotification
 {
     /* Constructor */
-    AssyncNotification(); 
-	~AssyncNotification(); 
+    AssyncNotification();
+	~AssyncNotification();
 
 	void InitLogFile(LPCTSTR szFileName);
 	void CloseLogFile();

@@ -18,10 +18,12 @@ be found in the Authors.txt file in the root of the source tree.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+#pragma once
+
 #ifndef _MAILMSG_H_
 #define _MAILMSG_H_
 
-#include "stdafx.h"
+#include "CrashSenderCommonDef.h"
 
 typedef std::map<std::string, std::string> TStrStrMap;
 

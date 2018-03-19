@@ -14,6 +14,8 @@ be found in the Authors.txt file in the root of the source tree.
 // Authors: zexspectrum
 // Date: 
 
+#pragma once
+
 #ifndef _CRITSEC_H
 #define _CRITSEC_H
 
@@ -24,8 +26,8 @@ class CCritSec
 {
     // make copy constructor and assignment operator inaccessible
 
-    CCritSec(const CCritSec &refCritSec);
-    CCritSec &operator=(const CCritSec &refCritSec);
+    CCritSec(const CCritSec &refCritSec) = delete;
+    CCritSec &operator=(const CCritSec &refCritSec) = delete;
 
     CRITICAL_SECTION m_CritSec;
 
@@ -58,8 +60,8 @@ class CAutoLock
 {
     // make copy constructor and assignment operator inaccessible
 
-    CAutoLock(const CAutoLock &refAutoLock);
-    CAutoLock &operator=(const CAutoLock &refAutoLock);
+    CAutoLock(const CAutoLock &refAutoLock) = delete;
+    CAutoLock& operator=(const CAutoLock &refAutoLock) = delete;
 
 protected:
     CCritSec * m_pLock;
@@ -67,6 +69,7 @@ protected:
 public:
     CAutoLock(__in CCritSec * plock)
     {
+        assert(plock);
         m_pLock = plock;
         m_pLock->Lock();
     };

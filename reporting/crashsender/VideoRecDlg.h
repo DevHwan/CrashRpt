@@ -14,7 +14,9 @@ be found in the Authors.txt file in the root of the source tree.
 // Date: Sep 2013
 
 #pragma once
-#include "stdafx.h"
+
+#include "CrashSenderCommonDef.h"
+
 #include "resource.h"
 
 // class CVideoRecDlg

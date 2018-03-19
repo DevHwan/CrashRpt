@@ -15,6 +15,8 @@ be found in the Authors.txt file in the root of the source tree.
 *  \author Oleg Krivtsov (zeXspectrum) 
 */
 
+#pragma once
+
 #ifndef _CRASHRPT_H_
 #define _CRASHRPT_H_
 
@@ -47,50 +49,8 @@ be found in the Authors.txt file in the root of the source tree.
 #define CRASHRPT_VER 1500
 
 /*! \defgroup CrashRptAPI CrashRpt Functions */
-/*! \defgroup DeprecatedAPI Obsolete Functions */
 /*! \defgroup CrashRptStructs CrashRpt Structures */
 /*! \defgroup CrashRptWrappers CrashRpt Wrapper Classes */
-
-/*! \ingroup DeprecatedAPI
-*  \brief Client crash callback function prototype
-*  \param[in] lpvState Must be set to NULL.
-*
-*  \remarks
-*
-*  This function is deprecated, it is recommended to use \ref PFNCRASHCALLBACK()
-*  instead.
-*
-*  The crash callback function is called when crash occurs. This way client application is
-*  notified about the crash.
-*
-*  It is generally unsafe to do complex actions (e.g. memory allocation, heap operations) inside of this callback.
-*  The application state may be unstable.
-*
-*  One reason the application may use this callback for is to close handles to open log files that the 
-*  application plans to include into the error report. Files should be accessible for reading, otherwise
-*  CrashRpt won't be able to include them into error report.
-*
-*  It is also possible (but not recommended) to add files, properties, desktop screenshots, 
-*  registry keys inside of the crash callback function.
-*  
-*  The crash callback function should typically return \c TRUE to allow generate error report.  
-*  Returning \c FALSE will prevent crash report generation.
-*
-*  The following example shows how to use the crash callback function.
-*
-*  \code
-*  // define the crash callback
-*  BOOL CALLBACK CrashCallback(LPVOID lpvState)
-*  {    
-*     // Do something...
-*
-*     return TRUE;
-*  }
-*  \endcode
-*
-*  \sa crAddFile2(), PFNCRASHCALLBACK()
-*/
-typedef BOOL (CALLBACK *LPGETLOGFILE) (__reserved LPVOID lpvState);
 
 // Exception types used in CR_EXCEPTION_INFO::exctype structure member.
 #define CR_SEH_EXCEPTION                0    //!< SEH exception.
@@ -452,7 +412,6 @@ crSetCrashCallbackA(
 #define CR_NEGATIVE_PRIORITY ((UINT)-1)
 
 // Flags for CR_INSTALL_INFO::dwFlags
-#define CR_INST_STRUCTURED_EXCEPTION_HANDLER      0x1 //!< Install SEH handler (deprecated name, use \ref CR_INST_SEH_EXCEPTION_HANDLER instead).
 #define CR_INST_SEH_EXCEPTION_HANDLER             0x1 //!< Install SEH handler.
 #define CR_INST_TERMINATE_HANDLER                 0x2 //!< Install terminate handler.
 #define CR_INST_UNEXPECTED_HANDLER                0x4 //!< Install unexpected handler.
@@ -471,7 +430,6 @@ crSetCrashCallbackA(
 #define CR_INST_CRT_EXCEPTION_HANDLERS         0x1FFE //!< Install exception handlers for the linked CRT module.
 
 #define CR_INST_NO_GUI                         0x2000 //!< Do not show GUI, send report silently (use for non-GUI apps only).
-#define CR_INST_HTTP_BINARY_ENCODING           0x4000 //!< Deprecated, do not use.
 #define CR_INST_DONT_SEND_REPORT               0x8000 //!< Don't send error report immediately, just save it locally.
 #define CR_INST_APP_RESTART                   0x10000 //!< Restart the application on crash.
 #define CR_INST_NO_MINIDUMP                   0x20000 //!< Do not include minidump file to crash report.
@@ -721,7 +679,6 @@ typedef struct tagCR_INSTALL_INFOW
     LPCWSTR pszEmailSubject;        //!< Subject of crash report e-mail. 
     LPCWSTR pszUrl;                 //!< URL of server-side script (used in HTTP connection).
     LPCWSTR pszCrashSenderPath;     //!< Directory name where CrashSender.exe is located.
-    LPGETLOGFILE pfnCrashCallback;  //!< Deprecated, do not use.
     UINT uPriorities[5];            //!< Array of error sending transport priorities.
     DWORD dwFlags;                  //!< Flags.
     LPCWSTR pszPrivacyPolicyURL;    //!< URL of privacy policy agreement.
@@ -755,7 +712,6 @@ typedef struct tagCR_INSTALL_INFOA
     LPCSTR pszEmailSubject;        //!< Subject of crash report e-mail. 
     LPCSTR pszUrl;                 //!< URL of server-side script (used in HTTP connection).
     LPCSTR pszCrashSenderPath;     //!< Directory name where CrashSender.exe is located.
-    LPGETLOGFILE pfnCrashCallback; //!< Deprecated, do not use.
     UINT uPriorities[5];           //!< Array of error sending transport priorities.
     DWORD dwFlags;                 //!< Flags.
     LPCSTR pszPrivacyPolicyURL;    //!< URL of privacy policy agreement.
@@ -1094,27 +1050,27 @@ crAddFile2A(
 #define CR_AS_USE_JPEG_FORMAT 8  //!< Store screenshots as JPG files.
 #define CR_AS_ALLOW_DELETE   16  //!< If this flag is specified, the file will be deletable from context menu of Error Report Details dialog.
 
-/*! \ingroup DeprecatedAPI  
+/*! \ingroup DeprecatedAPI
 *  \brief Adds a screenshot to the crash report.
-* 
+*
 *  \return This function returns zero if succeeded. Use crGetLastErrorMsg() to retrieve the error message on fail.
 *
 *  \param[in] dwFlags Flags, optional.
-*  
-*  \remarks 
 *
-*  As of v.1.3.1, this function is deprecated and may be removed in one of the next releases. Use 
+*  \remarks
+*
+*  As of v.1.3.1, this function is deprecated and may be removed in one of the next releases. Use
 *  \ref crAddScreenshot2() function instead.
 *
-*  This function can be used to take a screenshot at the moment of crash and add it to the error report. 
+*  This function can be used to take a screenshot at the moment of crash and add it to the error report.
 *  Screenshot information may help the developer to better understand the state of the application
 *  at the moment of crash and reproduce the error.
 *
-*  When this function is called, screenshot flags are saved, 
+*  When this function is called, screenshot flags are saved,
 *  then the function returns control to the caller.
-*  When crash occurs, screenshot is made by the \b CrashSender.exe process and added to the report. 
-* 
-*  \b dwFlags 
+*  When crash occurs, screenshot is made by the \b CrashSender.exe process and added to the report.
+*
+*  \b dwFlags
 *
 *    - \ref CR_AS_ALLOW_DELETE        If this flag is specified, the user will be able to delete the file from error report using context menu of Error Report Details dialog.
 *
@@ -1128,20 +1084,20 @@ crAddFile2A(
 *  the main window.
 *
 *  Screenshots are added in form of PNG files by default. You can specify the \ref CR_AS_USE_JPEG_FORMAT flag to save
-*  screenshots as JPEG files instead. 
+*  screenshots as JPEG files instead.
 *
-*  In addition, you can specify the \ref CR_AS_GRAYSCALE_IMAGE flag to make a grayscale screenshot 
+*  In addition, you can specify the \ref CR_AS_GRAYSCALE_IMAGE flag to make a grayscale screenshot
 *  (by default color image is made). Grayscale image gives smaller file size.
 *
 *  If you use JPEG image format, you may better use the \ref crAddScreenshot2() function, that allows to
-*  define JPEG image quality. 
+*  define JPEG image quality.
 *
-*  When capturing entire desktop consisting of several monitors, 
-*  one screenshot file is added per each monitor. 
+*  When capturing entire desktop consisting of several monitors,
+*  one screenshot file is added per each monitor.
 *
-*  You should be careful when using this feature, because screenshots may contain user-identifying 
-*  or private information. Always specify purposes you will use collected 
-*  information for in your Privacy Policy. 
+*  You should be careful when using this feature, because screenshots may contain user-identifying
+*  or private information. Always specify purposes you will use collected
+*  information for in your Privacy Policy.
 *
 *  \sa
 *   crAddFile2()
@@ -1149,8 +1105,8 @@ crAddFile2A(
 
 CRASHRPTAPI(int)
 crAddScreenshot(
-                DWORD dwFlags
-                );
+    DWORD dwFlags
+);
 
 /*! \ingroup CrashRptAPI  
 *  \brief Adds a screenshot to the crash report.

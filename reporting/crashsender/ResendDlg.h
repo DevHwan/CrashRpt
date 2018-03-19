@@ -14,7 +14,9 @@ be found in the Authors.txt file in the root of the source tree.
 // Date: 
 
 #pragma once
-#include "stdafx.h"
+
+#include "CrashSenderCommonDef.h"
+
 #include "ProgressDlg.h"
 #include "DetailDlg.h"
 

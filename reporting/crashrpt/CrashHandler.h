@@ -91,8 +91,7 @@ public:
         __in_opt LPCTSTR lpcszAppName = NULL,
         __in_opt LPCTSTR lpcszAppVersion = NULL,
         __in_opt LPCTSTR lpcszCrashSenderPath = NULL,
-        __in_opt LPGETLOGFILE lpfnCallback = NULL,           
-        __in_opt LPCTSTR lpcszTo = NULL,             
+        __in_opt LPCTSTR lpcszTo = NULL,
         __in_opt LPCTSTR lpcszSubject = NULL,
         __in_opt LPCTSTR lpcszUrl = NULL,
         __in_opt UINT (*puPriorities)[5] = NULL,
@@ -290,7 +289,6 @@ public:
     CString m_sLangFileName;       // Language file.
     CString m_sPathToDebugHelpDll; // Path to dbghelp.dll.
     CString m_sUnsentCrashReportsFolder; // Path to the folder where to save error reports.
-    LPGETLOGFILE m_lpfnCallback;   // Client crash callback (deprecated).
 	BOOL m_bAddScreenshot;         // Should we add screenshot?
     DWORD m_dwScreenshotFlags;     // Screenshot flags.
     int m_nJpegQuality;            // Quality of JPEG screenshot images.

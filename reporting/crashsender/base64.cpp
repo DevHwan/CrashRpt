@@ -34,6 +34,7 @@ be found in the Authors.txt file in the root of the source tree.
    Rene' Nyffenegger rene.nyffenegger@adp-gmbh.ch
 
 */
+#include "stdafx.h"
 
 #include "base64.h"
 #include <iostream>

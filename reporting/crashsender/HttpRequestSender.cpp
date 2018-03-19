@@ -51,7 +51,7 @@ DWORD WINAPI CHttpRequestSender::WorkerThread(VOID* pParam)
 {
     CHttpRequestSender* pSender = (CHttpRequestSender*)pParam;
     // Delegate further actions to CHttpRequestSender class
-    pSender->InternalSend();  
+    pSender->InternalSend();
 
     return 0;
 }

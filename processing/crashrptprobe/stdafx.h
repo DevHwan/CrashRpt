@@ -34,7 +34,6 @@ extern CAppModule _Module;
 // CString-related includes
 #define _WTL_USE_CSTRING
 #include <atlmisc.h>
-
 #include <shlobj.h>
 #include <shellapi.h>
 

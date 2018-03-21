@@ -28,9 +28,11 @@ be found in the Authors.txt file in the root of the source tree.
 #define EXTERNC
 #endif
 
+#ifdef _X86_
 // _ReturnAddress and _AddressOfReturnAddress should be prototyped before use 
 EXTERNC void * _AddressOfReturnAddress(void);
 EXTERNC void * _ReturnAddress(void);
+#endif
 
 #endif 
 
@@ -468,10 +470,10 @@ int CCrashHandler::Init(
 		if(pfnSetProcessUserModeExceptionPolicy!=NULL && 
 			pfnGetProcessUserModeExceptionPolicy!=NULL)
 		{
-			DWORD dwFlags = 0;
-			if(pfnGetProcessUserModeExceptionPolicy(&dwFlags))
+			DWORD _tmpFlags = 0;
+			if(pfnGetProcessUserModeExceptionPolicy(&_tmpFlags))
 			{
-				pfnSetProcessUserModeExceptionPolicy(dwFlags & ~PROCESS_CALLBACK_FILTER_ENABLED); 
+				pfnSetProcessUserModeExceptionPolicy(_tmpFlags & ~PROCESS_CALLBACK_FILTER_ENABLED);
 			}
 		}
 

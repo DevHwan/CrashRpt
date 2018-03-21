@@ -549,7 +549,7 @@ LRESULT CResendDlg::OnShowLog(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl
 {
 	CErrorReportSender* pSender = CErrorReportSender::GetInstance();
 	HINSTANCE hInst = ShellExecute(m_hWnd, _T("open"), pSender->GetLogFilePath(), NULL, NULL, SW_SHOW);
-    ATLASSERT((int)hInst>32);
+    ATLASSERT(reinterpret_cast<INT_PTR>(hInst)>32);
     hInst;
     return 0;
 }

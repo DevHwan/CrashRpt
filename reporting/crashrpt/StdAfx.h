@@ -21,11 +21,12 @@ be found in the Authors.txt file in the root of the source tree.
 #include <errno.h>
 #include <atldef.h>
 #include <atlbase.h>
+#pragma component(browser, off, references)
 #include <atlwin.h>
+#pragma component(browser, on, references)
 #include <atlapp.h>
 
 extern CAppModule _Module;
-#include <atlwin.h>
 // CString-related includes
 #define _WTL_USE_CSTRING
 #include <atlmisc.h>

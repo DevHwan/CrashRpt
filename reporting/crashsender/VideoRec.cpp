@@ -16,7 +16,6 @@ be found in the Authors.txt file in the root of the source tree.
 #include "stdafx.h"
 #include "VideoRec.h"
 #include "Utility.h"
-#include "math.h"
 
 static int ilog(unsigned _v){
   int ret;

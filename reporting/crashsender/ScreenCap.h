@@ -16,9 +16,9 @@ be found in the Authors.txt file in the root of the source tree.
 #include "CrashSenderCommonDef.h"
 
 extern "C" {
-#include "png.h"
+#include <png.h>
 }
-#include "jpeglib.h"
+#include <jpeglib.h>
 
 // Window information
 struct WindowInfo

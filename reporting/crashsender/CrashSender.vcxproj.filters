@@ -1,49 +1,96 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\crashrpt\SharedMem.cpp" />
-    <ClCompile Include="..\crashrpt\Utility.cpp" />
     <ClCompile Include="AssyncNotification.cpp" />
     <ClCompile Include="CrashInfoReader.cpp" />
     <ClCompile Include="CrashSender.cpp" />
-    <ClCompile Include="DetailDlg.cpp" />
-    <ClCompile Include="ErrorReportDlg.cpp" />
     <ClCompile Include="ErrorReportSender.cpp" />
-    <ClCompile Include="FilePreviewCtrl.cpp" />
     <ClCompile Include="HttpRequestSender.cpp" />
     <ClCompile Include="MailMsg.cpp" />
-    <ClCompile Include="ProgressDlg.cpp" />
-    <ClCompile Include="ResendDlg.cpp" />
     <ClCompile Include="ScreenCap.cpp" />
     <ClCompile Include="smtpclient.cpp" />
     <ClCompile Include="VideoRec.cpp" />
-    <ClCompile Include="VideoRecDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
       <Filter>..Precomp</Filter>
     </ClCompile>
+    <ClCompile Include="..\crashrpt\Utility.cpp">
+      <Filter>..CrashRpt</Filter>
+    </ClCompile>
+    <ClCompile Include="DetailDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorReportDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgressDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="ResendDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoRecDlg.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="FilePreviewCtrl.cpp">
+      <Filter>Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\crashrpt\SharedMem.cpp">
+      <Filter>..CrashRpt</Filter>
+    </ClCompile>
+    <ClCompile Include="base64.cpp" />
+    <ClCompile Include="md5.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\crashrpt\Utility.h" />
     <ClInclude Include="AssyncNotification.h" />
     <ClInclude Include="CrashInfoReader.h" />
-    <ClInclude Include="DetailDlg.h" />
-    <ClInclude Include="ErrorReportDlg.h" />
     <ClInclude Include="ErrorReportSender.h" />
-    <ClInclude Include="FilePreviewCtrl.h" />
     <ClInclude Include="HttpRequestSender.h" />
     <ClInclude Include="MailMsg.h" />
-    <ClInclude Include="ProgressDlg.h" />
-    <ClInclude Include="ResendDlg.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="ScreenCap.h" />
-    <ClInclude Include="SequenceLayout.h" />
     <ClInclude Include="smtpclient.h" />
     <ClInclude Include="VideoRec.h" />
-    <ClInclude Include="VideoRecDlg.h" />
     <ClInclude Include="stdafx.h">
       <Filter>..Precomp</Filter>
     </ClInclude>
     <ClInclude Include="CrashSenderCommonDef.h" />
+    <ClInclude Include="..\crashrpt\Utility.h">
+      <Filter>..CrashRpt</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>..Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="DetailDlg.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorReportDlg.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgressDlg.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="ResendDlg.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoRecDlg.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="FilePreviewCtrl.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="SequenceLayout.h">
+      <Filter>Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\crashrpt\SharedMem.h">
+      <Filter>..CrashRpt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\crashrpt\strconv.h">
+      <Filter>..CrashRpt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\crashrpt\Prefastdef.h">
+      <Filter>..CrashRpt</Filter>
+    </ClInclude>
+    <ClInclude Include="base64.h" />
+    <ClInclude Include="md5.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\CrashSender.ico">
@@ -59,6 +106,15 @@
     </Filter>
     <Filter Include="..Resources">
       <UniqueIdentifier>{0c73b827-a458-479a-b075-13e029be6281}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..CrashRpt">
+      <UniqueIdentifier>{abecaf99-ab07-45d4-9329-55d877bf63c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dialogs">
+      <UniqueIdentifier>{d8062d15-55cb-4963-8797-bb97b6263779}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controls">
+      <UniqueIdentifier>{3749cc61-1238-4ad1-8c3f-abb469a0f723}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

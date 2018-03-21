@@ -114,7 +114,7 @@ int CMiniDumpReader::Open(CString sFileName, CString sSymSearchPath)
         return 3;
     }
 
-    m_DumpData.m_hProcess = (HANDLE)(++dwProcessID);  
+    m_DumpData.m_hProcess = reinterpret_cast<HANDLE>(++dwProcessID);  
 
     DWORD dwOptions = 0;
     //dwOptions |= SYMOPT_DEFERRED_LOADS; // Symbols are not loaded until a reference is made requiring the symbols be loaded.
@@ -666,7 +666,7 @@ int CMiniDumpReader::StackWalk(DWORD dwThreadId)
         BOOL bWalk = ::StackWalk64(
             dwMachineType,               // machine type
             m_DumpData.m_hProcess,       // our process handle
-            (HANDLE)dwThreadId,          // thread ID
+            reinterpret_cast<HANDLE>(dwThreadId),          // thread ID
             &sf,                         // stack frame
             dwMachineType==IMAGE_FILE_MACHINE_I386?NULL:(&Context), // used for non-I386 machines 
             ReadProcessMemoryProc64,     // our routine

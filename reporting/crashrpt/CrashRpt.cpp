@@ -772,6 +772,7 @@ void sigfpe_test()
 #define BIG_NUMBER 0x1fffffff
 //#define BIG_NUMBER 0xf
 #pragma warning(disable: 4717) // avoid C4717 warning
+#pragma warning(disable: 4702)
 int RecurseAlloc() 
 {
     int *pi = NULL;
@@ -779,6 +780,7 @@ int RecurseAlloc()
 		pi = new int[BIG_NUMBER];
     return 0;
 }
+#pragma warning(default: 4702)
 
 // Vulnerable function
 #pragma warning(disable : 4996)   // for strcpy use

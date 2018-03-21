@@ -574,8 +574,7 @@ CRASH_DESCRIPTION* CCrashHandler::PackCrashInfoIntoSharedMem(CSharedMem* pShared
 	m_pTmpCrashDesc->m_dwSmtpPasswordOffs = PackString(m_sSmtpPassword);    
 
 	// Pack file items
-	std::map<CString, FileItem>::iterator fit;
-	for(fit=m_files.begin(); fit!=m_files.end(); fit++)
+	for(auto fit=m_files.begin(); fit!=m_files.end(); fit++)
 	{
 		FileItem& fi = fit->second;
 
@@ -584,16 +583,14 @@ CRASH_DESCRIPTION* CCrashHandler::PackCrashInfoIntoSharedMem(CSharedMem* pShared
 	}
 
 	// Pack custom props
-	std::map<CString, CString>::iterator pit;
-	for(pit=m_props.begin(); pit!=m_props.end(); pit++)
+	for(auto pit=m_props.begin(); pit!=m_props.end(); pit++)
 	{		
 		// Pack this prop into shared mem.
 		PackProperty(pit->first, pit->second);
 	}
 
 	// Pack reg keys
-	std::map<CString, RegKeyInfo>::iterator rit;
-	for(rit=m_RegKeys.begin(); rit!=m_RegKeys.end(); rit++)
+	for(auto rit=m_RegKeys.begin(); rit!=m_RegKeys.end(); rit++)
 	{		
 		RegKeyInfo& rki = rit->second;
 
@@ -932,8 +929,7 @@ int CCrashHandler::SetThreadExceptionHandlers(DWORD dwFlags)
     CAutoLock lock(&m_csThreadExceptionHandlers);
 
 	// Try and find our thread ID in the list of threads.
-    std::map<DWORD, ThreadExceptionHandlers>::iterator it = 
-        m_ThreadExceptionHandlers.find(dwThreadId);
+    auto it = m_ThreadExceptionHandlers.find(dwThreadId);
 
     if(it!=m_ThreadExceptionHandlers.end())
     {
@@ -1001,8 +997,7 @@ int CCrashHandler::UnSetThreadExceptionHandlers()
 
     CAutoLock lock(&m_csThreadExceptionHandlers);
 
-    std::map<DWORD, ThreadExceptionHandlers>::iterator it = 
-        m_ThreadExceptionHandlers.find(dwThreadId);
+    auto it = m_ThreadExceptionHandlers.find(dwThreadId);
 
     if(it==m_ThreadExceptionHandlers.end())
     {
@@ -1100,7 +1095,7 @@ int CCrashHandler::AddFile(LPCTSTR pszFile, LPCTSTR pszDestFile, LPCTSTR pszDesc
 		}
 
 		// Check if file is already in our list
-		std::map<CString, FileItem>::iterator it = m_files.find(fi.m_sDstFileName);
+		auto it = m_files.find(fi.m_sDstFileName);
 		if(it!=m_files.end())
 		{
 			crSetErrorMsg(_T("A file with such a destination name already exists."));

@@ -125,13 +125,13 @@ struct CRASH_DESCRIPTION
 #define SHARED_MEM_MAX_SIZE 10*1024*1024   /* 10 MB */
 
 // Used to share memory between CrashRpt.dll and CrashSender.exe
-class CSharedMem
+class CSharedMem final
 {
 public:
 
     // Construction/destruction
-    CSharedMem();  
-    ~CSharedMem();  
+    CSharedMem();
+    ~CSharedMem();
 
     // Initializes shared memory
     BOOL Init(LPCTSTR szName, BOOL bOpenExisting, ULONG64 uSize);
@@ -160,7 +160,7 @@ private:
     HANDLE m_hFileMapping;		// Memory mapped object
     DWORD m_dwAllocGranularity; // System allocation granularity  	  
     ULONG64 m_uSize;	      	// Size of the file mapping.		  
-    std::map<LPBYTE, LPBYTE> m_aViewStartPtrs; // Base of the view of the file mapping.    
+    std::unordered_map<LPBYTE, LPBYTE> m_aViewStartPtrs; // Base of the view of the file mapping.    
 };
 
 

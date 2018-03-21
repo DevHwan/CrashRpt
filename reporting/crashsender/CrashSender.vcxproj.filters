@@ -86,9 +86,6 @@
     <ClInclude Include="..\crashrpt\strconv.h">
       <Filter>..CrashRpt</Filter>
     </ClInclude>
-    <ClInclude Include="..\crashrpt\Prefastdef.h">
-      <Filter>..CrashRpt</Filter>
-    </ClInclude>
     <ClInclude Include="base64.h" />
     <ClInclude Include="md5.h" />
   </ItemGroup>

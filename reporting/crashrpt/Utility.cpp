@@ -69,7 +69,7 @@ int Utility::getTempDirectory(CString& strTemp)
     }
     strTemp = CString(pszTempVar);
     free(pszTempVar);
-#endif    
+#endif
 
     return 0;
 }
@@ -201,7 +201,7 @@ int Utility::GetOSFriendlyName(CString& sOSName)
 
 #pragma warning(default:4996)
 
-        regKey.Close();    
+        regKey.Close();
         return 0;
     }
 
@@ -271,7 +271,7 @@ int Utility::GetGeoLocation(CString& sGeoLocation)
             }
         }
 
-        FreeLibrary(hKernel32);    
+        FreeLibrary(hKernel32);
     }
 
     return -1;

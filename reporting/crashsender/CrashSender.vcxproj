@@ -289,7 +289,6 @@
     <ClCompile Include="VideoRecDlg.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\crashrpt\Prefastdef.h" />
     <ClInclude Include="..\crashrpt\SharedMem.h" />
     <ClInclude Include="..\crashrpt\strconv.h" />
     <ClInclude Include="..\crashrpt\Utility.h" />

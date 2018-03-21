@@ -14,23 +14,22 @@ be found in the Authors.txt file in the root of the source tree.
 // Date: 2009
 
 #pragma once
-#include "stdafx.h"
+#include "CrashRptCommonDef.h"
 #include "CrashRpt.h"      
 #include "Utility.h"
 #include "CritSec.h"
 #include "SharedMem.h"
-#include "Prefastdef.h"
 
 /* This structure contains pointer to the exception handlers for a thread.*/
 struct ThreadExceptionHandlers
 {
     ThreadExceptionHandlers()
+        : m_prevTerm(nullptr)
+        , m_prevUnexp(nullptr)
+        , m_prevSigFPE(nullptr)
+        , m_prevSigILL(nullptr)
+        , m_prevSigSEGV(nullptr)
     {
-        m_prevTerm = NULL;
-        m_prevUnexp = NULL;
-        m_prevSigFPE = NULL;
-        m_prevSigILL = NULL;
-        m_prevSigSEGV = NULL;
     }
 
     terminate_handler m_prevTerm;        // Previous terminate handler   
@@ -47,9 +46,9 @@ int crSetErrorMsg(PTSTR pszErrorMsg);
 struct FileItem
 {
 	FileItem()
+        : m_bMakeCopy(FALSE)
+        , m_bAllowDelete(FALSE)
 	{
-		m_bMakeCopy = FALSE;
-		m_bAllowDelete = FALSE;
 	}
 
     CString m_sSrcFilePath; // Path to the original file. 
@@ -66,8 +65,8 @@ struct FileItem
 struct RegKeyInfo
 {
 	RegKeyInfo()
+        : m_bAllowDelete(false)
 	{
-		m_bAllowDelete = false;
 	}
 
 	CString m_sDstFileName; // Destination file name (as seen in ZIP archive).
@@ -76,7 +75,7 @@ struct RegKeyInfo
 
 // This class is used to set exception handlers, catch exceptions
 // and launch crash report sender process.
-class CCrashHandler  
+class CCrashHandler
 {
 public:
 
@@ -262,7 +261,7 @@ public:
     void (__cdecl *m_prevSigTERM)(int); // Previous SIGTERM handler.
 
     // List of exception handlers installed for worker threads of this process.
-    std::map<DWORD, ThreadExceptionHandlers> m_ThreadExceptionHandlers;
+    std::unordered_map<DWORD, ThreadExceptionHandlers> m_ThreadExceptionHandlers;
     CCritSec m_csThreadExceptionHandlers; // Synchronization lock for m_ThreadExceptionHandlers.
 
     BOOL m_bInitialized;           // Flag telling if this object was initialized.  

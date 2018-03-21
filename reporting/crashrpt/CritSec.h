@@ -19,38 +19,32 @@ be found in the Authors.txt file in the root of the source tree.
 #ifndef _CRITSEC_H
 #define _CRITSEC_H
 
-#include "Prefastdef.h"
+#include <cassert>
+#include <mutex>
 
 // wrapper for whatever critical section we have
-class CCritSec 
+class CCritSec final
 {
     // make copy constructor and assignment operator inaccessible
 
     CCritSec(const CCritSec &refCritSec) = delete;
     CCritSec &operator=(const CCritSec &refCritSec) = delete;
 
-    CRITICAL_SECTION m_CritSec;
+    std::recursive_mutex m_mtx;
 
 public:
 
-    CCritSec() 
-    {
-        InitializeCriticalSection(&m_CritSec);
-    };
-
-    ~CCritSec() 
-    {
-        DeleteCriticalSection(&m_CritSec);
-    }
+    CCritSec() = default;
+    ~CCritSec() = default;
 
     void Lock() 
     {
-        EnterCriticalSection(&m_CritSec);
+        m_mtx.lock();
     };
 
     void Unlock() 
     {
-        LeaveCriticalSection(&m_CritSec);
+        m_mtx.unlock();
     };
 };
 
@@ -68,6 +62,7 @@ protected:
 
 public:
     CAutoLock(__in CCritSec * plock)
+        : m_pLock(nullptr)
     {
         assert(plock);
         m_pLock = plock;

@@ -11,14 +11,12 @@ be found in the Authors.txt file in the root of the source tree.
 #include "stdafx.h"
 #include "SharedMem.h"
 
-CSharedMem::CSharedMem()  
+CSharedMem::CSharedMem()
+    : m_uSize(0)
+    , m_hFileMapping(NULL)
 {
-	// Set internal variables to their default state
-    m_uSize = 0;
-    m_hFileMapping = NULL;  
-
 	// Determine memory granularity (needed for file mapping).
-    SYSTEM_INFO si;  
+    SYSTEM_INFO si;
     GetSystemInfo(&si);
     m_dwAllocGranularity = si.dwAllocationGranularity;  
 }
@@ -32,7 +30,7 @@ CSharedMem::~CSharedMem()
 
 BOOL CSharedMem::Init(LPCTSTR szName, BOOL bOpenExisting, ULONG64 uSize)
 {
-	// If already initialised, do nothing
+	// If already initialized, do nothing
     if(m_hFileMapping!=NULL)
         return FALSE;
 
@@ -72,8 +70,7 @@ BOOL CSharedMem::IsInitialized()
 BOOL CSharedMem::Destroy()
 {
 	// Release all views of the file mapping
-    std::map<LPBYTE, LPBYTE>::iterator it;
-    for(it=m_aViewStartPtrs.begin(); it!=m_aViewStartPtrs.end(); it++)
+    for(auto it=m_aViewStartPtrs.begin(); it!=m_aViewStartPtrs.end(); it++)
     {
         UnmapViewOfFile(it ->second);    
     }
@@ -120,7 +117,7 @@ LPBYTE CSharedMem::CreateView(DWORD dwOffset, DWORD dwLength)
 void CSharedMem::DestroyView(LPBYTE pViewPtr)
 {
 	// Release the view having specified starting pointer
-    std::map<LPBYTE, LPBYTE>::iterator it = m_aViewStartPtrs.find(pViewPtr);
+    auto it = m_aViewStartPtrs.find(pViewPtr);
     if(it!=m_aViewStartPtrs.end())
     {
         UnmapViewOfFile(it ->second);
